@@ -1,0 +1,64 @@
+/* Homepage journal only. Brand palette: Baby Pink, Warm White and Deep Navy. */
+#home-journal{
+  --journal-edge-fade:clamp(140px,18vw,240px);
+  position:relative;isolation:isolate;width:100%;max-width:none;
+  padding-inline:max(24px,calc((100% - 1072px)/2));
+  background:transparent;
+}
+#home-journal::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:url('../assets/journal-silk-background.png') center center / cover no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,
+    transparent 0%,#00000047 calc(var(--journal-edge-fade)*.33),
+    #000000d9 calc(var(--journal-edge-fade)*.73),#000 var(--journal-edge-fade),
+    #000 calc(100% - var(--journal-edge-fade)),
+    #000000d9 calc(100% - var(--journal-edge-fade)*.73),
+    #00000047 calc(100% - var(--journal-edge-fade)*.33),transparent 100%);
+  mask-image:linear-gradient(180deg,
+    transparent 0%,#00000047 calc(var(--journal-edge-fade)*.33),
+    #000000d9 calc(var(--journal-edge-fade)*.73),#000 var(--journal-edge-fade),
+    #000 calc(100% - var(--journal-edge-fade)),
+    #000000d9 calc(100% - var(--journal-edge-fade)*.73),
+    #00000047 calc(100% - var(--journal-edge-fade)*.33),transparent 100%);
+}
+#home-journal>*{position:relative;z-index:1}
+#home-journal .section-heading h2{color:#003b66}
+#home-journal .eyebrow{
+  background:#ffffff73;border:1px solid #ffffffb3;color:#6a5260;
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+}
+#home-journal .article-card{
+  background:linear-gradient(145deg,#ffffff9c,#faf6f647);
+  border:1px solid #ffffffc9;
+  box-shadow:0 16px 42px #a94c7514,inset 0 1px 0 #ffffffe6;
+  -webkit-backdrop-filter:blur(20px) saturate(115%);
+  backdrop-filter:blur(20px) saturate(115%);
+  transition:transform .4s,background .4s,box-shadow .4s;
+}
+#home-journal .article-card:hover{
+  background:linear-gradient(145deg,#ffffffbd,#faf6f66b);
+  box-shadow:0 22px 48px #a94c7521,inset 0 1px 0 #fff;
+}
+#home-journal .article-card:focus-visible{outline:2px solid #003b66;outline-offset:5px}
+#home-journal .article-copy{background:transparent;box-shadow:none}
+#home-journal .article-copy p,
+#home-journal .section-heading p,
+#home-journal .section-end p{color:#6b606b}
+#home-journal .article-image{background:#faf6f640;border:1px solid #ffffff94}
+#home-journal .article-image::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,transparent 60%,#ffd6e422);
+}
+#home-journal .category-tag{
+  background:#ffffff9c;color:#003b66;border:1px solid #ffffffb3;z-index:1;
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+}
+#home-journal .section-end .button{background:#003b66;color:#fff}
+#home-journal .section-end .button:hover{background:#224e70}
+@media(max-width:809px){
+  #home-journal{padding-inline:20px}
+  #home-journal::before{background-position:55% center}
+}
+@media(prefers-reduced-motion:reduce){
+  #home-journal .article-card{transition:none}
+}

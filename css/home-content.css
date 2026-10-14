@@ -1,0 +1,9 @@
+/* Keep the hero's existing type, imagery and motion while fitting two actions. */
+.hero .hero-actions{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.hero .hero-actions .button{width:auto;max-width:100%}
+.hero-copy>p{max-width:660px;padding-inline:12px}
+@media(max-width:599px){
+  .hero .hero-actions{gap:10px}
+  .hero .hero-actions .button{font-size:14px;padding:13px 18px;min-height:48px}
+  .hero-copy>p{font-size:16px;max-width:360px;margin-bottom:26px}
+}

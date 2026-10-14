@@ -1,0 +1,36 @@
+/* Images for the four existing approach cards; copy and grid stay in place. */
+#our-approach .approach-card{background-color:rgba(248,251,255,.8)}
+#our-approach .approach-card h4,
+#our-approach .approach-card p{z-index:2}
+#our-approach .approach-listening img,
+#our-approach .approach-longterm img{
+  inset:0;width:100%;height:100%;max-width:none;object-fit:cover;
+  mix-blend-mode:normal;mask-image:none;opacity:.55;pointer-events:none;
+}
+#our-approach .approach-careful img{
+  right:-3%;bottom:0;width:67%;height:100%;max-width:none;
+  object-fit:cover;object-position:center 38%;mix-blend-mode:normal;
+  mask-image:linear-gradient(90deg,transparent 0%,#000 42%);
+  opacity:.9;pointer-events:none;
+}
+#our-approach .approach-careful::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(0deg,#f7faff 0%,#f7faffeb 25%,#f7faff00 64%);
+}
+#our-approach .approach-results img{
+  right:0;bottom:0;width:100%;height:48%;max-width:none;
+  object-fit:cover;object-position:center 62%;mix-blend-mode:normal;
+  mask-image:linear-gradient(180deg,transparent,#000 32%);
+  opacity:.95;pointer-events:none;
+}
+@media(max-width:809px){
+  #our-approach .approach-results img{height:48%;object-position:center 55%}
+  #our-approach .approach-results p{margin-bottom:160px}
+  #our-approach .approach-longterm img{opacity:.4}
+}
+@media(max-width:599px){
+  #our-approach .approach-results{min-height:490px}
+  #our-approach .approach-results p{max-width:100%;margin-bottom:190px}
+  #our-approach .approach-results img{height:48%;object-position:center 55%}
+  #our-approach .approach-careful img{width:64%}
+}

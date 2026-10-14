@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#dce5ed">
+  <meta name="description" content="Althea — modern aesthetic and wellness care, with a gentle and personal approach.">
+  <title>Althea — Aesthetic & Wellness</title>
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="preload" href="assets/jizBRFtNs2ka5fXjeivQ4LroWlx-2zcZj1bIkNo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="styles.css">
+  <script src="content.js" defer></script>
+  <script src="app.js" defer></script>
+  <script src="animations.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="ambient" aria-hidden="true"><canvas id="contours"></canvas></div>
+  <header class="site-header">
+    <a class="brand-logo" href="index.html" aria-label="Wellcare Bloom home"><img src="assets/logo.png" alt="Wellcare Bloom" width="220" height="98"></a>
+    <nav class="desktop-nav" aria-label="Main navigation"><a href="about.html">About</a><a href="services.html">Services</a><a href="journal.html">Journal</a><a href="contact.html">Contact</a></nav>
+    <a class="button light header-book" href="book-a-consultation.html"><span>Book a consultation</span></a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+  </header>
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="journal.html">Journal</a><a href="contact.html">Contact</a><a href="book-a-consultation.html">Book a consultation ↗</a></nav>
+  <main id="main"></main>
+  <footer id="footer"></footer>
+  <button class="sound-control" aria-label="Enable ambient sound" aria-pressed="false"><span class="sound-icon"><svg viewBox="0 0 32 24" aria-hidden="true"><path d="M5 12H27"/></svg></span><span class="sound-label">Experience<br>with sound</span></button>
+  <audio id="ambient-audio" src="assets/AZqfDGzDfLb1orDcA5BMV3XkJ9Q.mp3" loop preload="none"></audio>
+  <noscript><p class="noscript">Please enable JavaScript to explore this interactive Althea website.</p></noscript>
+</body>
+</html>

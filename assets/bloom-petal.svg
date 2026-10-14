@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="110" viewBox="0 0 160 110" fill="none">
+  <defs>
+    <linearGradient id="silk" x1="27" y1="8" x2="111" y2="104" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFE7ED" stop-opacity=".12"/>
+      <stop offset=".27" stop-color="#FFC2D2" stop-opacity=".8"/>
+      <stop offset=".6" stop-color="#F591B3" stop-opacity=".65"/>
+      <stop offset="1" stop-color="#FFE9EE" stop-opacity=".08"/>
+    </linearGradient>
+    <linearGradient id="fold" x1="39" y1="71" x2="143" y2="39" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0"/>
+      <stop offset=".48" stop-color="#FFF8FA" stop-opacity=".85"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path d="M12 72C28 64 25 31 56 16C83 3 116 24 149 17C131 36 149 70 118 87C84 108 47 81 12 72Z" fill="url(#silk)"/>
+  <path d="M12 72C54 67 77 32 149 17C117 45 85 48 76 76C67 93 41 79 12 72Z" fill="url(#fold)" opacity=".7"/>
+  <path d="M18 71C52 71 82 35 145 20" stroke="url(#fold)" stroke-width="1.1"/>
+  <path d="M36 71C69 77 107 63 131 38M65 55C78 34 104 25 127 25" stroke="#FFF4F7" stroke-opacity=".35" stroke-width=".65"/>
+</svg>
