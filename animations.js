@@ -111,7 +111,7 @@
  async function setupPortrait(){
   if(!glCanvas||reduced.matches)return;
   try{
-   gl=glCanvas.getContext('webgl',{alpha:true,premultipliedAlpha:false,antialias:true});
+   gl=glCanvas.getContext('webgl',{alpha:true,premultipliedAlpha:true,antialias:true});
    if(!gl)return;
    const compile=(type,source)=>{const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw Error('Portrait shader unavailable');return s};
    const vs=compile(gl.VERTEX_SHADER,'attribute vec2 position; varying vec2 uv; void main(){uv=vec2((position.x+1.0)*.5,1.0-(position.y+1.0)*.5);gl_Position=vec4(position,0.,1.);}');
@@ -120,7 +120,7 @@
    const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);const position=gl.getAttribLocation(program,'position');gl.enableVertexAttribArray(position);gl.vertexAttribPointer(position,2,gl.FLOAT,false,0,0);
    const load=src=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src});
    const textures=await Promise.all([load(portrait.querySelector('img').currentSrc || portrait.querySelector('img').src),load('assets/30nszQvXKcEgIENheS0WavYlM2Y.jpg')]);
-   textures.forEach((img,i)=>{const t=gl.createTexture();gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);gl.uniform1i(gl.getUniformLocation(program,i===0?'portrait':'depth'),i)});
+   textures.forEach((img,i)=>{const t=gl.createTexture();gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,i===0);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);gl.uniform1i(gl.getUniformLocation(program,i===0?'portrait':'depth'),i)});
    offsetUniform=gl.getUniformLocation(program,'offset');resizePortrait();portraitReady=true;portrait.classList.add('has-depth');
    glCanvas.addEventListener('webglcontextlost',()=>{portraitReady=false;portrait.classList.remove('has-depth')});
   }catch{portrait?.classList.remove('has-depth')}
