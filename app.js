@@ -2,13 +2,13 @@
 'use strict';
 const ASSET = 'assets/';
 const images = {
-  hero:'hero-mother-baby.png', depth:'30nszQvXKcEgIENheS0WavYlM2Y.jpg',
+  hero:'hero-mother-baby.webp', depth:'30nszQvXKcEgIENheS0WavYlM2Y.jpg',
   front:'azpEwdss6XW8gQrcvhKGGrYqjg.webp', frontJpg:'Iygm9WFensHwXXoe01QWLQ0iF78.jpg',
   side:'AYmhm7fQptPoF2bCQsLfIJDi0U4.jpg', face:'AFEMnkblR75GU9bwfRpmzlqBpQ.jpg',
   reeds:'nJqFkXMmRiafaaCThCYlQSprSFk.jpg', hydration:'0WVX1KMgVFBEAviv4zQhKVw8rgk.jpg'
 };
 const escapeHtml = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const image = (file,alt='',className='',lazy=true) => `<img src="${ASSET}${file}" alt="${escapeHtml(alt)}" class="${className}" ${lazy?'loading="lazy"':''} decoding="async">`;
+const image = (file,alt='',className='',lazy=true) => `<img src="${ASSET}${file}" alt="${escapeHtml(alt)}" class="${className}" loading="${lazy?'lazy':'eager'}" decoding="async"${lazy?'':' fetchpriority="high"'}>`;
 const button = (text='Book a consultation',href='book-a-consultation.html',cls='') => `<a class="button ${cls}" href="${href}"><span>${text}</span></a>`;
 const heading = (tag,title,description='') => `<div class="section-heading reveal">${tag?`<span class="eyebrow">${tag}</span>`:''}<h2>${title}</h2>${description?`<p>${description}</p>`:''}</div>`;
 const services = [
@@ -59,7 +59,7 @@ const icon = n => `<svg class="service-icon" viewBox="0 0 80 80" aria-hidden="tr
 const social = () => `<div class="socials"><a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener noreferrer">◎</a><a href="https://www.threads.com/" aria-label="Threads" target="_blank" rel="noopener noreferrer">@</a><a href="https://www.facebook.com/" aria-label="Facebook" target="_blank" rel="noopener noreferrer">ⓕ</a><a href="https://www.youtube.com/" aria-label="YouTube" target="_blank" rel="noopener noreferrer">▷</a></div>`;
 const proof = () => `<div class="client-proof"><h4 style="font-size:30px">Care that understands you.</h4><p style="margin-top:20px">Private, respectful consultations.</p><p style="margin-top:16px">Individual assessment and personal planning.</p><p style="margin-top:16px">Practical guidance for everyday life.</p></div>`;
 const careCTA = () => `<section class="container care-cta reveal"><div class="cta-copy"><h3>Ready to begin<br>your care?</h3><p>Every step at Wellcare Bloom starts with listening. Together, we plan care around your comfort, function, recovery and everyday goals.</p>${button()}</div><div>${proof()}<p style="font-size:13px;margin-top:32px;text-align:center"><a href="mailto:info@wellcarebloom.in">Send us an email</a> or connect with us on social — we’re always happy to help.</p>${social()}</div></section>`;
-const bloomExperience = () => `<section class="bloom-experience" id="bloom" aria-labelledby="bloom-title" data-bloom-state="static"><div class="bloom-stage"><div class="bloom-fallback" aria-hidden="true"></div><div class="bloom-canvas" aria-hidden="true"></div><div class="bloom-atmosphere" aria-hidden="true"></div><p class="bloom-kicker">YOUR<br>WELLBEING<br>FIRST</p><h2 id="bloom-title" aria-label="Extraordinary care."><span class="bloom-title-line bloom-title-extra" aria-hidden="true">Extra</span><span class="bloom-title-line bloom-title-ordinary" aria-hidden="true">Ordinary</span><span class="bloom-title-line bloom-title-last" aria-hidden="true">Care</span></h2><div class="bloom-brand" aria-hidden="true"><img src="assets/wellcare-bloom-white.png" alt="" width="1880" height="837" decoding="async"></div></div></section>`;
+const bloomExperience = () => `<section class="bloom-experience" id="bloom" aria-labelledby="bloom-title" data-bloom-state="static"><div class="bloom-stage"><div class="bloom-fallback" aria-hidden="true"></div><div class="bloom-canvas" aria-hidden="true"></div><div class="bloom-atmosphere" aria-hidden="true"></div><p class="bloom-kicker">YOUR<br>WELLBEING<br>FIRST</p><h2 id="bloom-title" aria-label="Extraordinary care."><span class="bloom-title-line bloom-title-extra" aria-hidden="true">Extra</span><span class="bloom-title-line bloom-title-ordinary" aria-hidden="true">Ordinary</span><span class="bloom-title-line bloom-title-last" aria-hidden="true">Care</span></h2><div class="bloom-brand" aria-hidden="true"><img src="assets/wellcare-bloom-white.webp" alt="" width="1880" height="837" loading="lazy" decoding="async"></div></div></section>`;
 const faqs = [
  [
   "What happens at my first visit?",
@@ -129,7 +129,7 @@ const articles = [
   "title": "Care Begins with Listening.",
   "description": "What to expect from a private conversation, individual assessment and a care plan built around you.",
   "category": "Pelvic Health",
-  "image": "approach-physiotherapy.png",
+  "image": "approach-physiotherapy.webp",
   "url": "article-guidance.html",
   "body": [
    [
@@ -162,7 +162,7 @@ const articles = [
   "title": "Recovery at Your Own Pace.",
   "description": "A thoughtful approach to postpartum recovery, rebuilding movement and returning to everyday life.",
   "category": "Postpartum Care",
-  "image": "approach-mother-baby.png",
+  "image": "approach-mother-baby.webp",
   "url": "article-hydration.html",
   "body": [
    [
@@ -205,9 +205,9 @@ function home(){
  return `<section class="hero" id="hero"><div class="hero-bg" aria-hidden="true"></div><div class="hero-petals" aria-hidden="true"><span class="hero-petal hero-petal-1"><img src="assets/bloom-petal.svg" alt="" decoding="async"></span><span class="hero-petal hero-petal-2"><img src="assets/bloom-petal.svg" alt="" decoding="async"></span><span class="hero-petal hero-petal-3"><img src="assets/bloom-petal.svg" alt="" decoding="async"></span><span class="hero-petal hero-petal-4"><img src="assets/bloom-petal.svg" alt="" decoding="async"></span></div><div class="hero-portrait">${image(images.hero,'A mother holding her sleeping baby','',false)}<canvas id="portrait-depth" aria-hidden="true"></canvas></div><div class="hero-copy"><h1 aria-label="Heal. Rebuild. Bloom."><span class="hero-line">Heal. Rebuild.</span> <span class="hero-line">Bloom.</span></h1><p>Women’s health physiotherapy for pelvic care, postpartum recovery and everyday confidence.</p><div class="hero-actions">${button('Book a consultation')}${button('Explore our services','#our-services','light')}</div></div></section>
  <section class="manifesto"><div class="manifesto-inner container"><blockquote>"You deserve care that understands you. Pelvic floor concerns, bladder leakage, pelvic pain and changes after childbirth can be difficult to talk about. At Wellcare Bloom, you do not have to navigate them alone. We listen, assess your needs and plan care around your comfort, recovery and everyday goals."</blockquote><cite>Wellcare Bloom — Women’s Health Physiotherapy</cite></div></section>
  <section class="services-scroll" id="our-services" aria-label="Our Services"><div class="services-intro">${heading('Our Specialities','Care to help you bloom.','Pelvic health and postpartum physiotherapy, personalised to your symptoms, goals and recovery stage.')}</div><div class="services-runway" style="--service-count:${services.length}"><div class="services-sticky"><div class="service-track">${services.map((s,i)=>`<div class="service-slot"><a href="services.html#service-${i}" class="service-card"><span class="service-glass-rim" aria-hidden="true"></span>${i===3?'<svg class="service-icon" viewBox="0 0 80 80" aria-hidden="true"><path d="M47 69C19 73 5 47 16 25S53 9 62 27c10 21-4 38-20 34-14-3-18-18-10-27 8-8 21-2 18 8-2 7-11 7-12 0"/></svg>':icon(i)}<h3>${s[0]}</h3><p>${s[1]}</p><small>Click to learn more</small></a></div>`).join('')}</div><div class="mobile-dots">${services.map((_,i)=>`<button aria-label="Scroll to service ${i+1}" aria-pressed="${i===0}" class="${i===0?'active':''}" data-slide="${i}"></button>`).join('')}</div></div></div></section>
- <section class="section journey container">${heading('','Your Bloom Journey.','From listening and assessment to rehabilitation and review, every step is shaped around you.')}<div class="journey-layout"><div class="reveal">${image('journey-pregnant-woman.png','Pregnant woman standing in side profile','journey-face')}</div><div class="journey-steps">${[['Listen & Assess.','We listen to your concerns and assess movement, posture, breathing, core and pelvic floor function where appropriate.'],['Plan & Rebuild.','Together, we agree on a personal plan and work progressively on mobility, strength, coordination or relaxation to suit your needs.'],['Review & Progress.','We review your progress, adapt your plan and offer practical guidance for daily life, recovery and returning to activity.']].map((s,i)=>`<div class="journey-step reveal"><span class="step-number">0${i+1}</span><div><h4>${s[0]}</h4><p>${s[1]}</p></div></div>`).join('')}</div></div></section>
+ <section class="section journey container">${heading('','Your Bloom Journey.','From listening and assessment to rehabilitation and review, every step is shaped around you.')}<div class="journey-layout"><div class="reveal">${image('journey-pregnant-woman.webp','Pregnant woman standing in side profile','journey-face')}</div><div class="journey-steps">${[['Listen & Assess.','We listen to your concerns and assess movement, posture, breathing, core and pelvic floor function where appropriate.'],['Plan & Rebuild.','Together, we agree on a personal plan and work progressively on mobility, strength, coordination or relaxation to suit your needs.'],['Review & Progress.','We review your progress, adapt your plan and offer practical guidance for daily life, recovery and returning to activity.']].map((s,i)=>`<div class="journey-step reveal"><span class="step-number">0${i+1}</span><div><h4>${s[0]}</h4><p>${s[1]}</p></div></div>`).join('')}</div></div></section>
  ${bloomExperience()}
- <section class="section wide" id="our-approach">${heading('Why Wellcare Bloom?','Care that understands you.','Dedicated women’s health physiotherapy, with private consultations, personal plans and practical support for everyday life.')}<div class="approach-grid">${[['Listening first','Start with a confidential conversation. We take time to understand your concerns, history and goals in a private, respectful space.','approach-listening-background.png'],['Focused<br>care','Our focus is women’s health and pelvic rehabilitation, with individual assessment and care guided by your needs.','approach-physiotherapy.png'],['Your pace,<br>your plan','Rehabilitation reflects your symptoms, goals and recovery stage. We work with you towards better comfort, function and confidence.','approach-mother-baby.png'],['Progress<br>together','Clear communication, regular review and practical guidance help connect your care with everyday life. Your plan adapts as your needs change.','approach-longterm-background.png']].map((c,i)=>`<div class="approach-card reveal approach-${['listening','careful','results','longterm'][i]}"><h4>${c[0]}</h4><p>${c[1]}</p>${image(c[2],i===1?'Mother practising gentle breathing during postpartum physiotherapy':i===2?'Mother holding her sleeping newborn':'')}</div>`).join('')}</div></section>
+ <section class="section wide" id="our-approach">${heading('Why Wellcare Bloom?','Care that understands you.','Dedicated women’s health physiotherapy, with private consultations, personal plans and practical support for everyday life.')}<div class="approach-grid">${[['Listening first','Start with a confidential conversation. We take time to understand your concerns, history and goals in a private, respectful space.','approach-listening-background.webp'],['Focused<br>care','Our focus is women’s health and pelvic rehabilitation, with individual assessment and care guided by your needs.','approach-physiotherapy.webp'],['Your pace,<br>your plan','Rehabilitation reflects your symptoms, goals and recovery stage. We work with you towards better comfort, function and confidence.','approach-mother-baby.webp'],['Progress<br>together','Clear communication, regular review and practical guidance help connect your care with everyday life. Your plan adapts as your needs change.','approach-longterm-background.webp']].map((c,i)=>`<div class="approach-card reveal approach-${['listening','careful','results','longterm'][i]}"><h4>${c[0]}</h4><p>${c[1]}</p>${image(c[2],i===1?'Mother practising gentle breathing during postpartum physiotherapy':i===2?'Mother holding her sleeping newborn':'')}</div>`).join('')}</div></section>
  <section class="testimonials" aria-label="Client testimonials" hidden><div class="testimonial-backdrop" aria-hidden="true">What our<br>clients say</div><div class="testimonial-deck" aria-live="polite">${testimonials.map((t,i)=>`<article class="testimonial-card" data-index="${i}"><div class="stars" aria-label="5 out of 5 stars">★★★★★</div><blockquote>“${t[0]}”</blockquote><cite>— ${t[1]}</cite></article>`).join('')}</div><div class="testimonial-controls"><button class="round-button" id="review-prev" aria-label="Previous review">‹</button><button class="round-button" id="review-next" aria-label="Next review">›</button></div></section>
  ${pricing()}
  <section class="stats container" hidden><div class="stat-grid">${[[9,'Years of experience in aesthetic and wellness care'],[320,'Clients supported with personal, thoughtful attention'],[20,'Services carefully selected and regularly reviewed']].map(s=>`<div class="reveal"><div class="stat-number"><span data-count="${s[0]}">0</span>+</div><p>${s[1]}</p></div>`).join('')}</div><h4 class="reveal">Behind every treatment is time, attention, and thoughtful work. These milestones reflect a practice focused on quality, trust, and long-term care.</h4>${button('Start your journey')}</section>
@@ -236,6 +236,20 @@ const routes={index:home,about,services:servicePage,journal,contact:()=>consulta
 document.querySelector('#main').innerHTML=(routes[page]||routes['404'])();
 document.querySelector('#footer').innerHTML=footer();
 document.title=page==='index'?'Wellcare Bloom — Women’s Health Physiotherapy':`${page.split('-').map(s=>s[0]?.toUpperCase()+s.slice(1)).join(' ')} — Wellcare Bloom`;
+if(page==='index'){
+ const loader=document.getElementById('page-loader');
+ const heroImage=document.querySelector('.hero-portrait img');
+ const minimum=new Promise(resolve=>setTimeout(resolve,450));
+ const maximum=new Promise(resolve=>setTimeout(resolve,1650));
+ const background=new Image();background.src='assets/hero-bg.webp';
+ const critical=Promise.allSettled([heroImage?.decode(),background.decode(),document.fonts?.ready]);
+ Promise.race([critical,maximum]).then(()=>minimum).then(()=>{
+  document.documentElement.classList.remove('page-loading');
+  document.querySelector('#main')?.removeAttribute('aria-busy');
+  loader?.classList.add('is-hidden');
+  setTimeout(()=>loader?.remove(),650);
+ });
+}
 document.querySelectorAll(`.desktop-nav a[href="${currentFile}"]`).forEach(a=>a.setAttribute('aria-current','page'));
 
 // Mobile menu uses a focus loop and restores focus when dismissed.

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="page-loading">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +8,8 @@
   <title>Wellcare Bloom — Women’s Health Physiotherapy</title>
   <link rel="icon" href="assets/favicon.png">
   <link rel="preload" href="assets/jizBRFtNs2ka5fXjeivQ4LroWlx-2zcZj1bIkNo.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/hero-bg.webp" as="image" fetchpriority="high">
+  <link rel="preload" href="assets/hero-mother-baby.webp" as="image" fetchpriority="high">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="css/bloom-parallax.css">
   <link rel="stylesheet" href="css/approach-imagery.css">
@@ -20,6 +22,11 @@
   <script type="module" src="js/bloom-parallax.js"></script>
 </head>
 <body>
+  <div class="page-loader" id="page-loader" role="status" aria-label="Loading Wellcare Bloom">
+    <img src="assets/logo.png" alt="" width="220" height="98">
+    <span class="page-loader-flower" aria-hidden="true"></span>
+    <span class="page-loader-caption">Making space for you</span>
+  </div>
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="ambient" aria-hidden="true"><canvas id="contours"></canvas></div>
   <header class="site-header">
@@ -29,7 +36,7 @@
     <button class="menu-toggle" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
   </header>
   <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" hidden><a href="index.html">Home</a><a href="about.html">About</a><a href="services.html">Services</a><a href="journal.html">Journal</a><a href="contact.html">Contact</a><a href="book-a-consultation.html">Book a consultation ↗</a></nav>
-  <main id="main"></main>
+  <main id="main" aria-busy="true"></main>
   <footer id="footer" class="footer-bloom"></footer>
   <button class="sound-control" aria-label="Enable ambient sound" aria-pressed="false"><span class="sound-icon"><svg viewBox="0 0 32 24" aria-hidden="true"><path d="M5 12H27"/></svg></span><span class="sound-label">Experience<br>with sound</span></button>
   <audio id="ambient-audio" src="assets/AZqfDGzDfLb1orDcA5BMV3XkJ9Q.mp3" loop preload="none"></audio>

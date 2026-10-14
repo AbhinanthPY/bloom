@@ -81,15 +81,25 @@
 @supports not ((mask-composite:exclude) or (-webkit-mask-composite:xor)){.service-glass-rim{padding:0;background:transparent;border:1px solid #ffffffc7;-webkit-backdrop-filter:none;backdrop-filter:none;box-shadow:inset 0 0 0 6px #e5edf56b}}
 
 /* The supplied petal artwork fills every card, with a light wash behind the copy. */
-.service-track .service-card{background-color:#fff;background-image:linear-gradient(180deg,#ffffff08 0%,#ffffff38 28%,#ffffffad 52%,#ffffffa6 66%,#ffffff12 100%),url('assets/service-petal-background.png');background-repeat:no-repeat;background-position:center;background-size:100% 100%;background-clip:padding-box}
+.service-track .service-card{background-color:#fff;background-image:linear-gradient(180deg,#ffffff08 0%,#ffffff38 28%,#ffffffad 52%,#ffffffa6 66%,#ffffff12 100%),url('assets/service-petal-background.webp');background-repeat:no-repeat;background-position:center;background-size:100% 100%;background-clip:padding-box}
 .service-track .service-card .service-icon{stroke:#a1a9c1}
 .service-track .service-card p{color:#666b7b}
 .service-track .service-card small{color:#4b4657;text-shadow:0 1px 6px #ffffffc9}
 
 /* Site-wide backdrop; the hero retains its existing hero-bg.webp layer. */
-.ambient{background:#d9eaff url('assets/site-contour-background.png') center center / cover no-repeat}
+.ambient{background:#d9eaff url('assets/site-contour-background.webp') center center / cover no-repeat}
 .ambient canvas{display:none}
 
 /* Preserve statistics content while keeping this section hidden. */
 .stats[hidden]{display:none!important}
 
+
+/* A short branded wait keeps the first hero transition calm while its images decode. */
+html.page-loading,html.page-loading body{overflow:hidden}
+.page-loader{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;background:radial-gradient(ellipse at 50% 42%,#fff9f8 0%,#f9e8ed 58%,#e4edf4 100%);opacity:1;visibility:visible;transition:opacity .5s ease,visibility .5s ease}
+.page-loader img{width:min(190px,48vw);height:auto;margin-bottom:8px}
+.page-loader-flower{width:30px;height:30px;border:2px solid #b86d82;border-right-color:#b86d8220;border-top-color:#b86d8220;border-radius:50%;animation:page-loader-spin 1s linear infinite}
+.page-loader-caption{color:#716d7b;font:14px/1.4 var(--sans);letter-spacing:.04em}
+.page-loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+@keyframes page-loader-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.page-loader-flower{animation:none}}

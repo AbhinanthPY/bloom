@@ -7,7 +7,7 @@
 }
 #home-journal::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:url('../assets/journal-silk-background.png') center center / cover no-repeat;
+  background:url('../assets/journal-silk-background.webp') center center / cover no-repeat;
   -webkit-mask-image:linear-gradient(180deg,
     transparent 0%,#00000047 calc(var(--journal-edge-fade)*.33),
     #000000d9 calc(var(--journal-edge-fade)*.73),#000 var(--journal-edge-fade),
