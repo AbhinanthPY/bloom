@@ -62,3 +62,12 @@
 @media(prefers-reduced-motion:reduce){
   #home-journal .article-card{transition:none}
 }
+
+/* Let each poster define its frame, keeping both covers fully visible. */
+#home-journal .journal-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+#home-journal .article-card{min-height:0;height:auto}
+#home-journal .article-image{order:-1;flex:none;width:100%;min-height:0;aspect-ratio:3/4;border:0}
+#home-journal .article-image img{position:static;display:block;width:100%;height:auto;object-fit:cover}
+#home-journal .article-card:hover img{transform:none}
+#home-journal .article-copy{flex:1}
+@media(max-width:520px){#home-journal .journal-grid{grid-template-columns:1fr}}

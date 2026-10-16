@@ -36,10 +36,8 @@
 .article-sources h2{font-size:32px;margin-bottom:18px}
 .article-sources ul{padding-left:20px;display:grid;gap:12px}
 .article-sources a{text-decoration:underline;text-underline-offset:4px}
-#home-journal .article-image{min-height:390px;background:#19201e}
-#home-journal .article-image img{object-fit:contain}
 @media(max-width:809px){.about-story,.journey-story{grid-template-columns:1fr}.about-image,.journey-story>.image-frame,.about-image img,.journey-story>.image-frame img{min-height:400px}.care-principles{grid-template-columns:1fr 1fr}.service-detail-expanded{grid-template-columns:1fr;padding:48px 0}.contact-details{order:0}}
-@media(max-width:520px){.care-principles{grid-template-columns:1fr}.care-principle{min-height:210px}.care-principle h3{margin:24px 0 12px}.contact-details{padding:26px}.contact-details h2{font-size:34px}.article-sources{padding:22px}#home-journal .article-image{min-height:440px}}
+@media(max-width:520px){.care-principles{grid-template-columns:1fr}.care-principle{min-height:210px}.care-principle h3{margin:24px 0 12px}.contact-details{padding:26px}.contact-details h2{font-size:34px}.article-sources{padding:22px}}
 .page-intro{position:relative;isolation:isolate;padding-bottom:80px}
 .page-intro:before{content:'';position:absolute;inset:30px 0 -70px;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 30%,#fce8ecaa,transparent 67%)}
 .page-intro h1{color:#003b66;max-width:1100px;margin-inline:auto}
@@ -71,8 +69,6 @@
 .journal-list .article-image img{object-fit:contain}
 .journal-list .article-copy p{margin-top:18px;line-height:1.7;font-size:15px}
 .journal-list .filter-row{margin-bottom:35px}
-#home-journal .article-image{background:#17201d}
-#home-journal .article-image img{object-fit:contain}
 .article-card[hidden]{display:none}
 @media(max-width:809px){.contact-layout{grid-template-columns:1fr}.contact-options{grid-template-columns:1fr 1fr}.contact-email{grid-column:1/-1}.contact-details{min-height:380px}.contact-option strong{font-size:30px}.contact-email strong{font-size:21px}.consultation-steps .care-principles{grid-template-columns:1fr}.journal-list .journal-grid{gap:20px}.journal-list .article-copy h3{font-size:32px}}
 @media(max-width:520px){.contact-options,.journal-list .journal-grid{grid-template-columns:1fr}.contact-option{padding:26px}.contact-option strong{font-size:34px}.contact-email strong{font-size:20px}.requested-care{padding:28px}.service-navigation{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding-bottom:25px;scrollbar-width:thin}.service-navigation a{flex:none}.article-hero img{max-height:none}.page-intro{padding-bottom:55px}}
