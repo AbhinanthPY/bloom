@@ -153,7 +153,7 @@
 .care-service-summary,.care-service-body{isolation:isolate}
 .care-service-body{position:relative;overflow:hidden}
 .care-service-summary:before,.care-service-body:before{content:'';position:absolute;inset:0 0 0 auto;z-index:-1;width:58%;pointer-events:none;background-image:var(--care-card-art);background-size:var(--care-card-fit);background-position:right center;background-repeat:no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#0008 48%,#000 100%);mask-image:linear-gradient(90deg,transparent 0%,#0008 48%,#000 100%)}
-.care-service-summary:before{width:44%;opacity:calc(var(--care-card-opacity)*.45)}
+.care-service-summary:before{width:44%;background-image:url('../assets/approach-listening-background.webp');background-size:contain;opacity:.55}
 .care-service-body:before{opacity:var(--care-card-opacity)}
 .care-service-body .care-service-columns li{color:#425f6e}
 .care-service-body .care-service-answer{background:#f4efebbb;backdrop-filter:blur(5px)}
