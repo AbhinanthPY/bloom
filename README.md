@@ -1,6 +1,6 @@
 # Wellcare Bloom
 
-A static website recreation for Wellcare Bloom, built with HTML, CSS and JavaScript. It has no package install or build step.
+A static website for Wellcare Bloom, built with HTML, CSS and JavaScript. It has no package install or build step.
 
 ## Run locally
 
@@ -14,16 +14,16 @@ Then open http://127.0.0.1:8000.
 
 ## Publish
 
-The GitHub Actions workflow in `.github/workflows/pages.yml` deploys the site to GitHub Pages whenever changes reach `main`. In the repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**. The published address will be `https://abhinanthpy.github.io/bloom/`.
+The GitHub Actions workflow in `.github/workflows/pages.yml` deploys the site to GitHub Pages whenever changes reach `main`. In repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**. The published address is `https://abhinanthpy.github.io/bloom/`.
 
 ## Pages
 
-Home, About, Services, Journal, Contact, consultation, two articles, three legal pages and a 404 page. The home page includes the hero, founder statement, service cards, care journey, consultation CTA, approach, reviews, pricing, counters, journal, FAQ, newsletter and footer.
+Home, About, Services, Journal, Contact, consultation, two journal articles, three legal information pages and a 404 page.
 
-## Forms and privacy
+## Forms
 
-Contact, consultation and newsletter forms validate input and show a local preview response. They do not send email, subscribe visitors or create appointments. No visitor information is persisted.
+Contact and consultation pages provide direct telephone, email and Google Maps links using the official Wellcare Physiotherapy contact information. Appointment confirmation is handled by the clinic. The newsletter form remains a local preview and does not subscribe visitors or persist information.
 
-## Reference and assets
+## Media
 
-This recreation is based on the public Althea reference by Anton Drukarov at https://templatoria.com/. The custom motion is a close recreation, not the original Framer implementation; timing and some inner-page layouts may differ. Images, fonts, sample clinic copy and audio came from the public reference. Review and meet the original assets' licensing requirements before reusing them, especially for commercial purposes.
+Images and fonts are stored locally in `assets/`. The original layout reference was created by Anton Drukarov and published at https://templatoria.com/. Some inherited images, fonts and audio came from that public reference; review and meet their licensing requirements before commercial use. Bloom posters and clinical copy were supplied by the client. Current clinic contact details are from https://wellcarephysiotherapy.in/contact.html.
