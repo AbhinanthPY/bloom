@@ -144,3 +144,19 @@
 @media(max-width:809px){.care-service{scroll-margin-top:48px}}
 @media(max-width:520px){.care-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;gap:3px;overflow:visible}.care-filter{font-size:11px;letter-spacing:-.015em;padding:12px 6px;min-height:44px}}
 @media(max-width:360px){.care-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.care-service{scroll-margin-top:90px}}
+
+/* Care panels carry the home's image-to-clear-space treatment. */
+.care-service{--care-card-art:url('../assets/approach-listening-background.webp');--care-card-fit:contain;--care-card-opacity:.78}
+#service-0,#service-6{--care-card-art:url('../assets/approach-mother-baby.webp');--care-card-fit:cover;--care-card-opacity:.34}
+#service-5{--care-card-art:url('../assets/approach-physiotherapy.webp');--care-card-fit:cover;--care-card-opacity:.34}
+#service-2,#service-4,#service-8{--care-card-art:url('../assets/approach-longterm-background.webp')}
+.care-service-summary,.care-service-body{isolation:isolate}
+.care-service-body{position:relative;overflow:hidden}
+.care-service-summary:before,.care-service-body:before{content:'';position:absolute;inset:0 0 0 auto;z-index:-1;width:58%;pointer-events:none;background-image:var(--care-card-art);background-size:var(--care-card-fit);background-position:right center;background-repeat:no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#0008 48%,#000 100%);mask-image:linear-gradient(90deg,transparent 0%,#0008 48%,#000 100%)}
+.care-service-summary:before{width:44%;opacity:calc(var(--care-card-opacity)*.45)}
+.care-service-body:before{opacity:var(--care-card-opacity)}
+.care-service-body .care-service-columns li{color:#425f6e}
+.care-service-body .care-service-answer{background:#f4efebbb;backdrop-filter:blur(5px)}
+.care-service-body .care-service-end>p{color:#5c727c}
+@media(max-width:809px){.care-service-body:before{inset:auto 0 0 auto;width:100%;height:58%;background-position:right bottom;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#0008 45%,#000 100%);mask-image:linear-gradient(180deg,transparent 0%,#0008 45%,#000 100%)}.care-service-summary:before{width:50%}}
+@media(prefers-reduced-transparency:reduce){.care-service-summary:before,.care-service-body:before{opacity:calc(var(--care-card-opacity)*.6)}.care-service-body .care-service-answer{background:#f4efeb;backdrop-filter:none}}
