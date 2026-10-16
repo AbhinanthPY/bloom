@@ -74,3 +74,5 @@
 @media(max-width:520px){.contact-options,.journal-list .journal-grid{grid-template-columns:1fr}.contact-option{padding:26px}.contact-option strong{font-size:34px}.contact-email strong{font-size:20px}.requested-care{padding:28px}.service-navigation{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding-bottom:25px;scrollbar-width:thin}.service-navigation a{flex:none}.article-hero img{max-height:none}.page-intro{padding-bottom:55px}}
 .about-story{padding-top:32px}
 .service-detail-heading h2{color:#003b66}
+
+.journal-poster{display:block;width:100%}
