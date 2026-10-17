@@ -7,6 +7,8 @@ let controller = null;
 let generation = 0;
 let preloadObserver = null;
 let presenceFrame = 0;
+let warmupTimer = 0;
+let warmupListener = null;
 
 function updateScenePresence() {
   if (!section) return;
@@ -329,6 +331,9 @@ async function createExperience(THREE, gsap, ScrollTrigger, token) {
 }
 
 function schedule() {
+  clearTimeout(warmupTimer);
+  if (warmupListener) window.removeEventListener('bloom:media-ready', warmupListener);
+  warmupListener = null;
   preloadObserver?.disconnect();
   generation++;
   controller?.dispose();
@@ -337,13 +342,25 @@ function schedule() {
     staticView(reduced.matches ? 'reduced-motion' : 'manual');
     return;
   }
-  if (location.hash === '#bloom') initialize();
-  else {
-    preloadObserver = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) { preloadObserver.disconnect(); initialize(); }
-    }, { rootMargin: '1200px 0px' });
-    preloadObserver.observe(section);
-  }
+  let started = false;
+  const begin = () => {
+    if (started || reduced.matches) return;
+    started = true;
+    clearTimeout(warmupTimer);
+    preloadObserver?.disconnect();
+    initialize();
+  };
+  // Prepare the animation after page imagery, before the visitor reaches it.
+  // Its static landscape is already decoded by the shared media loader.
+  const warm = () => { warmupListener = null; warmupTimer = setTimeout(begin, 300); };
+  if (document.documentElement.dataset.mediaState === 'loading') {
+    warmupListener = warm;
+    window.addEventListener('bloom:media-ready', warm, { once: true });
+  } else warm();
+  preloadObserver = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && document.documentElement.dataset.mediaState !== 'loading') begin();
+  }, { rootMargin: '1800px 0px' });
+  preloadObserver.observe(section);
 }
 
 if (section) {

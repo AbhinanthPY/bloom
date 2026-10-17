@@ -8,7 +8,7 @@ const images = {
   reeds:'nJqFkXMmRiafaaCThCYlQSprSFk.jpg', hydration:'0WVX1KMgVFBEAviv4zQhKVw8rgk.jpg'
 };
 const escapeHtml = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const image = (file,alt='',className='',lazy=true) => `<img src="${ASSET}${file}" alt="${escapeHtml(alt)}" class="${className}" loading="${lazy?'lazy':'eager'}" decoding="async"${lazy?'':' fetchpriority="high"'}>`;
+const image = (file,alt='',className='',lazy=true) => `<img src="${ASSET}${file}" alt="${escapeHtml(alt)}" class="${className}" loading="eager" decoding="async" fetchpriority="${lazy?'low':'high'}"${file===images.hero?' width="1086" height="1448"':file==='journey-pregnant-woman.webp'?' width="1122" height="1402"':''}>`;
 const button = (text='Book a consultation',href='book-a-consultation.html',cls='') => `<a class="button ${cls}" href="${href}"><span>${text}</span></a>`;
 const heading = (tag,title,description='') => `<div class="section-heading reveal">${tag?`<span class="eyebrow">${tag}</span>`:''}<h2>${title}</h2>${description?`<p>${description}</p>`:''}</div>`;
 const services = [
@@ -59,7 +59,7 @@ const icon = n => `<svg class="service-icon" viewBox="0 0 80 80" aria-hidden="tr
 const social = () => `<div class="socials"><a href="mailto:info@wellcarephysiotherapy.in" aria-label="Email Wellcare Bloom">@</a></div>`;
 const proof = () => `<div class="client-proof"><h4 style="font-size:30px">Care that understands you.</h4><p style="margin-top:20px">Private, respectful consultations.</p><p style="margin-top:16px">Individual assessment and personal planning.</p><p style="margin-top:16px">Practical guidance for everyday life.</p></div>`;
 const careCTA = () => `<section class="container care-cta reveal"><div class="cta-copy"><h3>Ready to begin<br>your care?</h3><p>Every step at Wellcare Bloom starts with listening. Together, we plan care around your comfort, function, recovery and everyday goals.</p>${button()}</div><div>${proof()}<p style="font-size:13px;margin-top:32px;text-align:center"><a href="mailto:info@wellcarephysiotherapy.in">Send us an email</a> — we’re happy to help you find a starting point.</p>${social()}</div></section>`;
-const bloomExperience = () => `<section class="bloom-experience" id="bloom" aria-labelledby="bloom-title" data-bloom-state="static"><div class="bloom-stage"><div class="bloom-fallback" aria-hidden="true"></div><div class="bloom-canvas" aria-hidden="true"></div><div class="bloom-atmosphere" aria-hidden="true"></div><p class="bloom-kicker">YOUR<br>WELLBEING<br>FIRST</p><h2 id="bloom-title" aria-label="Extraordinary care."><span class="bloom-title-line bloom-title-extra" aria-hidden="true">Extra</span><span class="bloom-title-line bloom-title-ordinary" aria-hidden="true">Ordinary</span><span class="bloom-title-line bloom-title-last" aria-hidden="true">Care</span></h2><div class="bloom-brand" aria-hidden="true"><img src="assets/wellcare-bloom-white.webp" alt="" width="1880" height="837" loading="lazy" decoding="async"></div></div></section>`;
+const bloomExperience = () => `<section class="bloom-experience" id="bloom" aria-labelledby="bloom-title" data-bloom-state="static"><div class="bloom-stage"><div class="bloom-fallback" aria-hidden="true"></div><div class="bloom-canvas" aria-hidden="true"></div><div class="bloom-atmosphere" aria-hidden="true"></div><p class="bloom-kicker">YOUR<br>WELLBEING<br>FIRST</p><h2 id="bloom-title" aria-label="Extraordinary care."><span class="bloom-title-line bloom-title-extra" aria-hidden="true">Extra</span><span class="bloom-title-line bloom-title-ordinary" aria-hidden="true">Ordinary</span><span class="bloom-title-line bloom-title-last" aria-hidden="true">Care</span></h2><div class="bloom-brand" aria-hidden="true"><img src="assets/wellcare-bloom-white.webp" alt="" width="1880" height="837" loading="eager" decoding="async" fetchpriority="low"></div></div></section>`;
 const faqs = [
  [
   "What happens at my first visit?",
@@ -170,7 +170,7 @@ const articles = [
 const journalPoster = (a,lazy=true) => {
  const stem=a.image.replace(/\.webp$/,'');
  const sizes=lazy?'(max-width:520px) calc(100vw - 56px), (max-width:809px) 320px, 500px':'(max-width:1120px) calc(100vw - 48px), 1072px';
- return `<picture class="journal-poster"><source type="image/avif" srcset="${ASSET}${stem}-648.avif 648w, ${ASSET}${stem}-1086.avif 1086w" sizes="${sizes}"><img src="${ASSET}${lazy?stem+'-648.webp':a.image}"${lazy?` srcset="${ASSET}${stem}-648.webp 648w, ${ASSET}${stem}-1086.webp 1086w" sizes="${sizes}"`:''} alt="${escapeHtml(a.title)}" width="1086" height="1448" loading="${lazy?'lazy':'eager'}" decoding="async"${lazy?'':' fetchpriority="high"'}></picture>`;
+ return `<picture class="journal-poster"><source type="image/avif" srcset="${ASSET}${stem}-648.avif 648w, ${ASSET}${stem}-1086.avif 1086w" sizes="${sizes}"><img src="${ASSET}${stem}-${lazy?'648':'1086'}.webp" srcset="${ASSET}${stem}-648.webp 648w, ${ASSET}${stem}-1086.webp 1086w" sizes="${sizes}" alt="${escapeHtml(a.title)}" width="1086" height="1448" loading="eager" decoding="async" fetchpriority="${lazy?'low':'high'}"></picture>`;
 };
 const articleCard = a => `<a class="article-card reveal" href="${a.url}" data-category="${a.category}"><div class="article-copy"><h3>${a.title}</h3><p>${a.description}</p></div><div class="article-image">${journalPoster(a)}</div></a>`;
 const journalSection = () => `<section class="section container journal-feature" id="home-journal">${heading('Our Journal','Notes for your next chapter.','Thoughtful reading on pelvic health, postpartum recovery and finding your way back to everyday life.')}<div class="journal-grid">${articles.map(articleCard).join('')}</div><div class="section-end reveal"><p>Explore our Journal for thoughtful insights on women’s health, recovery and everyday confidence.</p>${button('Browse insights','journal.html')}</div></section>`;
@@ -186,7 +186,7 @@ function home(){
 }
 const intro=(title,desc)=>`<section class="page-intro reveal"><h1>${title}</h1><p>${desc}</p></section>`;
 const careKicker = text => `<span class="care-kicker"><span aria-hidden="true"></span>${text}</span>`;
-const carePortrait = (file,alt,eager=false) => `<img src="${ASSET}${file}" alt="${escapeHtml(alt)}" width="1086" height="1448" loading="${eager?'eager':'lazy'}" decoding="async"${eager?' fetchpriority="high"':''}>`;
+const carePortrait = (file,alt,eager=false) => `<img src="${ASSET}${file}" alt="${escapeHtml(alt)}" width="1086" height="1448" loading="eager" decoding="async" fetchpriority="${eager?'high':'low'}">`;
 const careInvitation = () => `<section class="care-invitation care-width reveal" aria-labelledby="care-invitation-title"><div>${careKicker('Your next chapter')}<h2 id="care-invitation-title">Let’s begin with<br>a <em>conversation.</em></h2></div><div class="care-invitation-copy"><p>You don’t have to have all the answers. Tell us what you’re experiencing, and we’ll help you find a starting point.</p>${button('Book a consultation','book-a-consultation.html')}<a class="care-text-link" href="tel:+919207798777">Or call +91 92077 98777 <span aria-hidden="true">↗</span></a></div></section>`;
 function about(){
  const principles=[
@@ -242,20 +242,6 @@ const routes={index:home,about,services:servicePage,journal,contact:()=>consulta
 document.querySelector('#main').innerHTML=(routes[page]||routes['404'])();
 document.querySelector('#footer').innerHTML=footer();
 document.title=page==='index'?'Wellcare Bloom — Women’s Health Physiotherapy':page==='article-guidance'?`${articles[0].title} — Wellcare Bloom`:page==='article-hydration'?`${articles[1].title} — Wellcare Bloom`:`${page.split('-').map(s=>s[0]?.toUpperCase()+s.slice(1)).join(' ')} — Wellcare Bloom`;
-if(page==='index'){
- const loader=document.getElementById('page-loader');
- const heroImage=document.querySelector('.hero-portrait img');
- const minimum=new Promise(resolve=>setTimeout(resolve,450));
- const maximum=new Promise(resolve=>setTimeout(resolve,1650));
- const background=new Image();background.src='assets/hero-bg.webp';
- const critical=Promise.allSettled([heroImage?.decode(),background.decode(),document.fonts?.ready]);
- Promise.race([critical,maximum]).then(()=>minimum).then(()=>{
-  document.documentElement.classList.remove('page-loading');
-  document.querySelector('#main')?.removeAttribute('aria-busy');
-  loader?.classList.add('is-hidden');
-  setTimeout(()=>loader?.remove(),650);
- });
-}
 document.querySelectorAll(`.desktop-nav a[href="${currentFile}"]`).forEach(a=>a.setAttribute('aria-current','page'));
 
 // Mobile menu uses a focus loop and restores focus when dismissed.

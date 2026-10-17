@@ -121,7 +121,10 @@
    const load=src=>new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=reject;img.src=src});
    const textures=await Promise.all([load(portrait.querySelector('img').currentSrc || portrait.querySelector('img').src),load('assets/30nszQvXKcEgIENheS0WavYlM2Y.jpg')]);
    textures.forEach((img,i)=>{const t=gl.createTexture();gl.activeTexture(gl.TEXTURE0+i);gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,i===0);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,img);gl.uniform1i(gl.getUniformLocation(program,i===0?'portrait':'depth'),i)});
-   offsetUniform=gl.getUniformLocation(program,'offset');resizePortrait();portraitReady=true;portrait.classList.add('has-depth');
+   offsetUniform=gl.getUniformLocation(program,'offset');resizePortrait();
+   gl.uniform2f(offsetUniform,0,0);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+   if(gl.isContextLost()||gl.getError()!==gl.NO_ERROR)return;
+   portraitReady=true;portrait.classList.add('has-depth');
    glCanvas.addEventListener('webglcontextlost',()=>{portraitReady=false;portrait.classList.remove('has-depth')});
   }catch{portrait?.classList.remove('has-depth')}
  }
@@ -140,5 +143,9 @@
  window.addEventListener('resize',measure,{passive:true});
  window.addEventListener('load',measure);
  document.fonts.ready.then(measure);
- measure();setupPortrait();raf=requestAnimationFrame(animate);
+ // Keep GPU setup and duplicate texture decoding out of the image loading path.
+ const startPortrait=()=>{if(!portraitReady&&heroVisible)setupPortrait();};
+ if(document.documentElement.dataset.mediaState==='loading')window.addEventListener('bloom:media-ready',startPortrait,{once:true});
+ else startPortrait();
+ measure();raf=requestAnimationFrame(animate);
 })();
