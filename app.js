@@ -129,7 +129,7 @@ const articles = [
    ["p","If a healing wound or scar is painful, swollen, has an unusual smell, or you have a fever, contact your maternity or medical team promptly. For ongoing discomfort after healing, ask what assessment and support are suitable."],
    ["h2","5. Neck, back or movement discomfort"],
    ["p","Feeding, lifting and carrying can add new demands to your day. Persistent pain or difficulty returning to comfortable daily movement can be discussed with a clinician."],
-   ["h2","You can ask for support"],
+   ["h2","We will provide support"],
    ["p","Start by describing what you notice and how it affects your day. Care can begin with listening and an assessment; any next steps should be explained and agreed with you. This article is general information and does not replace medical advice or an individual assessment."]
   ]
  }
