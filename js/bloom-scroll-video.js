@@ -12,7 +12,7 @@
  const manualStatic=new URLSearchParams(location.search).get('bloom-motion')==='off';
  const clamp=(value,min=0,max=1)=>Math.max(min,Math.min(max,value));
  const smooth=value=>{const x=clamp(value);return x*x*(3-2*x);};
- let enabled=false,near=false,requested=false,failed=false,raf=0;
+ let enabled=false,requested=false,failed=false,warming=false,raf=0,readyPromise=null,objectURL=null;
  let top=0,travel=1,stageHeight=1;
  let pointerX=0,pointerY=0,easedX=0,easedY=0;
  video.muted=true;
@@ -25,13 +25,80 @@
   travel=Math.max(1,section.offsetHeight-stageHeight);
   queue();
  }
+ async function completeVideo(url){
+  let cache;
+  try{
+   cache=await caches.open('bloom-complete-video-v1');
+   const saved=await cache.match(url);
+   if(saved?.ok){
+    const blob=await saved.blob();
+    if(blob.size){section.dataset.bloomCache='hit';return blob;}
+   }
+  }catch{}
+  let response;
+  for(let attempt=0;attempt<2;attempt++){
+   try{
+    response=await fetch(url,{cache:attempt?'reload':'force-cache'});
+    if(response.status!==200)throw Error('Incomplete video response');
+    break;
+   }catch(error){if(attempt)throw error;}
+  }
+  const blob=await response.blob();
+  if(!blob.size)throw Error('Empty video');
+  section.dataset.bloomCache='downloaded';
+  if(cache){
+   try{
+    await cache.put(url,new Response(blob,{headers:{'Content-Type':'video/mp4'}}));
+    section.dataset.bloomCache='stored';
+   }catch{}
+  }
+  return blob;
+ }
+ function waitForFrame(time){
+  return new Promise((resolve,reject)=>{
+   const check=()=>{if(video.readyState>=2&&!video.seeking&&(time===undefined||Math.abs(video.currentTime-time)<.08))finish();};
+   const bad=()=>finish(Error('Video could not be prepared'));
+   const finish=error=>{
+    clearTimeout(timer);
+    ['loadeddata','seeked','canplay'].forEach(name=>video.removeEventListener(name,check));
+    video.removeEventListener('error',bad);
+    error?reject(error):resolve();
+   };
+   const timer=setTimeout(bad,20000);
+   ['loadeddata','seeked','canplay'].forEach(name=>video.addEventListener(name,check));
+   video.addEventListener('error',bad,{once:true});
+   if(time!==undefined&&Math.abs(video.currentTime-time)>.01)video.currentTime=time;
+   check();
+  });
+ }
  function prepare(){
-  if(!enabled||!near||requested||document.documentElement.dataset.mediaState==='loading')return;
-  requested=true;
-  video.preload='auto';
-  video.src=innerWidth<=809?video.dataset.mobileSrc:video.dataset.desktopSrc;
-  video.load();
+  if(!enabled){section.dataset.bloomPrepared='static';return Promise.resolve();}
+  if(readyPromise)return readyPromise;
+  requested=true;warming=true;
   section.dataset.bloomState='loading';
+  readyPromise=(async()=>{
+   const url=new URL(innerWidth<=809?video.dataset.mobileSrc:video.dataset.desktopSrc,document.baseURI).href;
+   video.preload='auto';
+   if(location.protocol==='file:'){
+    video.src=url;section.dataset.bloomCache='local';
+   }else{
+    objectURL=URL.createObjectURL(await completeVideo(url));
+    video.src=objectURL;
+   }
+   video.load();
+   await waitForFrame();
+   // Warm both ends of the decoder while the loading screen still covers the page.
+   await waitForFrame(Math.max(0,video.duration-1/24));
+   await waitForFrame(0);
+   warming=false;
+   section.dataset.bloomPrepared='true';
+   section.dataset.bloomState='ready';
+   section.classList.add('bloom-video-ready');
+   measure();
+   await new Promise(resolve=>requestAnimationFrame(resolve));
+  })().catch(error=>{warming=false;failed=true;section.dataset.bloomState='error';throw error;});
+  readyPromise.catch(()=>{});
+  return readyPromise;
  }
  function configure(){
   enabled=!reduced.matches&&!manualStatic;
@@ -45,7 +112,8 @@
    kicker.style.removeProperty('opacity');
    brand.style.removeProperty('opacity');brand.style.removeProperty('transform');
   }
-  measure();prepare();
+  measure();
+  if(enabled&&!requested)prepare();
  }
  function update(){
   raf=0;
@@ -84,7 +152,7 @@
   const duration=Number.isFinite(video.duration)?video.duration:0;
   const lastFrame=Math.max(0,duration-1/frameRate);
   const time=Math.round(clamp((progress-.08)/.68)*lastFrame*frameRate)/frameRate;
-  if(duration&&requested&&!failed){
+  if(duration&&requested&&!failed&&!warming){
    if(!video.seeking&&Math.abs(video.currentTime-time)>1/(frameRate*2)){
     // Queue only one precise seek at a time; seeked reads the newest scroll position.
     try{video.currentTime=Math.min(time,lastFrame);}catch{}
@@ -118,17 +186,13 @@
  });
  // Playback is driven entirely by scrolling, including reverse scrolling.
  video.addEventListener('play',()=>video.pause());
- const observer=new IntersectionObserver(entries=>{
-  near=entries[0].isIntersecting;
-  if(near)prepare();
-  queue();
- },{rootMargin:'2000px 0px'});
- observer.observe(section);
- window.addEventListener('bloom:media-ready',prepare);
  window.addEventListener('scroll',queue,{passive:true});
  window.addEventListener('resize',measure,{passive:true});
  window.addEventListener('pageshow',measure);
- window.addEventListener('pagehide',()=>{cancelAnimationFrame(raf);raf=0;video.pause();});
+ window.addEventListener('pagehide',event=>{
+  cancelAnimationFrame(raf);raf=0;video.pause();
+  if(!event.persisted&&objectURL)URL.revokeObjectURL(objectURL);
+ });
  document.addEventListener('visibilitychange',()=>{
   if(document.hidden){cancelAnimationFrame(raf);raf=0;video.pause();}else measure();
  });
@@ -144,5 +208,16 @@
  new ResizeObserver(measure).observe(section);
  document.fonts?.ready.then(measure);
  window.addEventListener('load',measure,{once:true});
+ window.addEventListener('bloom:before-reveal',measure);
  configure();
+ window.BloomReady?.add('bloom-video',prepare());
+ window.BloomReady?.prepare(async()=>{
+  if(!enabled)return;
+  warming=true;measure();
+  const progress=clamp((scrollY-top)/travel);
+  const last=Math.max(0,video.duration-1/24);
+  const time=Math.min(last,Math.round(clamp((progress-.08)/.68)*last*24)/24);
+  await waitForFrame(time);
+  warming=false;update();
+ });
 })();

@@ -4,10 +4,10 @@ The middle `#bloom` scene now uses the client-supplied flower film. The original
 
 ## Files
 
-- `js/bloom-scroll-video.js`: native scroll progress, paused video seeking, text transitions and final-frame parallax. Loaded as a classic deferred script, so it also works when opening the local HTML directly.
+- `js/bloom-scroll-video.js` (part of the generated homepage bundle): native scroll progress, paused video seeking, text transitions and final-frame parallax. Loaded as a classic deferred script, so it also works when opening the local HTML directly.
 - `css/bloom-parallax.css`: sticky stage, responsive artwork framing, text and reduced-motion styles.
-- `assets/bloom-flower-scroll.mp4`: 1280 × 720 H.264, 24 fps, silent, keyframe every 6 frames, fast-start metadata.
-- `assets/bloom-flower-scroll-mobile.mp4`: 960 × 540 version selected before loading on smaller screens.
+- `assets/bloom-flower-ready.mp4`: 1280 × 720 H.264, 24 fps, silent, keyframe every 12 frames, fast-start metadata.
+- `assets/bloom-flower-ready-mobile.mp4`: 960 × 540 version selected before loading on smaller screens.
 - `assets/bloom-flower-start.webp` and `assets/bloom-flower-end.webp`: exact first/last source frames as optimized stills.
 
 The source film is 166 frames (about 6.92 seconds). It is supplied by the client as `Flower_bud_blooming_animation_20261020163119.mp4`. No generated replacement artwork is used.
@@ -27,6 +27,9 @@ Only one precise seek is issued at a time. The next `seeked` event uses the late
 
 ## Loading and accessibility
 
-The start/end stills participate in the page image loader. The MP4 is excluded from the homepage loading gate and starts preloading within 2000 pixels of the section after the page images finish. Video is muted, inline, decorative and has no separate sound or controls. The ordinary stills remain available if the video fails.
+The start/end stills participate in the page image loader. The selected MP4 downloads completely during startup, is cached persistently where supported, and is assigned through a local blob URL. The decoder seeks to the final frame and back before startup completes; once fonts and geometry settle, it prepares the current scroll position. The loading screen waits for these steps alongside the image and animation promises. Video is muted, inline, decorative and has no separate sound or controls. The ordinary stills remain available if the video fails.
 
 Reduced motion and `?bloom-motion=off` show the final still without pinning or downloading the video; the heading and logo are visible. Rendering work stops while the page is hidden. The previous Three.js scene and vendor files remain as archived source material and are no longer imported by the homepage.
+
+
+Rebuild the generated homepage assets with `python3 scripts/build-home-runtime.py` after source changes. GitHub Actions also runs this automatically before deployment.

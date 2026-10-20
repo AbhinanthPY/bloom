@@ -5,8 +5,8 @@
  const clamp=(n,a=0,b=1)=>Math.max(a,Math.min(b,n));
  const lerp=(a,b,n)=>a+(b-a)*n;
  const canvas=document.getElementById('contours');
- const ctx=canvas.getContext('2d');
  const contoursEnabled=getComputedStyle(canvas).display!=='none';
+ const ctx=contoursEnabled?canvas.getContext('2d'):null;
  let width=innerWidth,height=innerHeight,dpr=Math.min(devicePixelRatio||1,2);
  let mouse={x:0,y:0},smoothMouse={x:0,y:0};
  let visible=!document.hidden,lastFrame=0,raf=0;
@@ -31,11 +31,11 @@
  const title=hero?.querySelector('h1');
  if(title){let letter=0;title.querySelectorAll('.hero-line').forEach(line=>{line.setAttribute('aria-hidden','true');line.innerHTML=[...line.textContent].map(c=>c===' '?' ':`<span class="letter" style="--i:${letter++}">${c}</span>`).join('')})}
  let geometry={};
- function measure(){width=innerWidth;height=innerHeight;dpr=Math.min(devicePixelRatio||1,2);canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);geometry={quoteTop:manifesto?.offsetTop||0,quoteHeight:manifesto?.offsetHeight||1,serviceTop:serviceSection?serviceSection.getBoundingClientRect().top+scrollY:0,serviceHeight:serviceSection?.offsetHeight||1,heroHeight:hero?.offsetHeight||1};resizePortrait();scrollMotion()}
+ function measure(){width=innerWidth;height=innerHeight;dpr=Math.min(devicePixelRatio||1,2);if(ctx){canvas.width=width*dpr;canvas.height=height*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);}geometry={quoteTop:manifesto?.offsetTop||0,quoteHeight:manifesto?.offsetHeight||1,serviceTop:serviceSection?serviceSection.getBoundingClientRect().top+scrollY:0,serviceHeight:serviceSection?.offsetHeight||1,heroHeight:hero?.offsetHeight||1};resizePortrait();scrollMotion()}
  window.addEventListener('pointermove',e=>{mouse.x=(e.clientX/width-.5)*2;mouse.y=(e.clientY/height-.5)*2},{passive:true});
  window.addEventListener('pointerout',e=>{if(!e.relatedTarget){mouse.x=0;mouse.y=0}},{passive:true});
  function drawContours(time){
-  if(!contoursEnabled)return;
+  if(!ctx)return;
   ctx.clearRect(0,0,width,height);
   const unit=Math.min(width,height);
   const centerX=width*.5+smoothMouse.x*12,centerY=height*.5+smoothMouse.y*10;
@@ -100,7 +100,9 @@
  let scrollQueued=false;
  window.addEventListener('scroll',()=>{if(!scrollQueued){scrollQueued=true;requestAnimationFrame(()=>{scrollMotion();scrollQueued=false})}},{passive:true});
  const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.08,rootMargin:'0px 0px -35px 0px'});
- document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+ const observeReveals=()=>document.querySelectorAll('.reveal:not(.visible)').forEach(el=>observer.observe(el));
+ if(document.documentElement.classList.contains('page-loading'))window.addEventListener('bloom:page-ready',observeReveals,{once:true});
+ else observeReveals();
  const counterObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(!entry.isIntersecting)return;const el=entry.target,target=Number(el.dataset.count);const begin=performance.now();function count(now){const p=clamp((now-begin)/1700);el.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1&&!reduced.matches)requestAnimationFrame(count);else el.textContent=target}requestAnimationFrame(count);counterObserver.unobserve(el)}),{threshold:.5});
  document.querySelectorAll('[data-count]').forEach(el=>counterObserver.observe(el));
 
@@ -143,9 +145,13 @@
  window.addEventListener('resize',measure,{passive:true});
  window.addEventListener('load',measure);
  document.fonts.ready.then(measure);
- // Keep GPU setup and duplicate texture decoding out of the image loading path.
- const startPortrait=()=>{if(!portraitReady&&heroVisible)setupPortrait();};
- if(document.documentElement.dataset.mediaState==='loading')window.addEventListener('bloom:media-ready',startPortrait,{once:true});
- else startPortrait();
+ const motionReady=(window.BloomImagesReady||Promise.resolve()).catch(()=>{}).then(async()=>{
+  await setupPortrait();
+  measure();
+  await new Promise(resolve=>requestAnimationFrame(resolve));
+  document.documentElement.dataset.animationsReady='true';
+ });
+ window.BloomReady?.add('animations',motionReady);
+ window.addEventListener('bloom:before-reveal',measure);
  measure();raf=requestAnimationFrame(animate);
 })();
