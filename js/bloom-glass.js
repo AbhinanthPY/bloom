@@ -7,7 +7,7 @@
  const surface=scene.querySelector('.wb-glass-surface');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const fine=matchMedia('(hover: hover) and (pointer: fine)');
- // All source images retain their common crop; only these small offsets differ.
+ // Small pointer offsets sit above the responsive corner anchors defined in CSS.
  const depths=[[0,0,0],[-6,-3,.06],[10,5,.12],[-16,5,.2],[25,-10,.32],[-32,12,.42]];
  const clamp=n=>Math.max(-1,Math.min(1,n));
  let current={x:0,y:0},target={x:0,y:0},raf=0,last=0;

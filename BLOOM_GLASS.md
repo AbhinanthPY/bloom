@@ -1,13 +1,13 @@
 # Gentle Bloom — independent liquid-glass section
 
-Added above Personalised Care (`#pricing`), after the existing floral scene and approach content. The original `#bloom` video/parallax scene is unchanged.
+Added above Personalised Care (`#pricing`), after the existing floral scene and approach content. The new scene is edge to edge and exactly one viewport tall, without an outer border, rounded frame, shadow or side margins. The original `#bloom` video/parallax scene is unchanged.
 
 ## Editable content and assets
 
 - `app.js`: `glassBloomContent` contains the eyebrow, heading, description, CTA label and destination. `glassBloomSection()` renders the semantic HTML.
 - `css/bloom-glass.css`: scoped composition, glass surface, droplet entrance and responsive/reduced-motion fallbacks.
 - `js/bloom-glass.js`: mouse interaction, entrance observer and cleanup.
-- `assets/bloom-glass/`: the six supplied WebP layers, unmodified, on their shared 1916 × 821 artboard. Every layer uses the same sizing and crop; only pointer offsets differ. Diffuse overlays use reduced opacity.
+- `assets/bloom-glass/`: the six supplied WebP layers, unmodified, on their shared 1916 × 821 artboard. The opaque background covers the full viewport. Foreground canvases preserve their 1916 × 821 aspect ratio: the reduced cherry branch sits at the upper left, the glass flower at the lower right, and waves along the bottom. This avoids magnifying the transparent artwork to fill a tall viewport. Pointer offsets are applied independently of those corner anchors. Diffuse overlays use reduced opacity.
 
 The scene uses no external dependencies. The existing homepage startup gate decodes its six images before revealing the page. Rebuild with `python3 scripts/build-home-runtime.py` after editing a source file.
 

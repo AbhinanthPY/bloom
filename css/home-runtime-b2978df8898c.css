@@ -436,19 +436,22 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
 
 
 /* Source: css/bloom-glass.css */
-/* Independent mouse-only scene. All six images share the same artboard and crop. */
-.wb-glass-scene{position:relative;isolation:isolate;overflow:hidden;width:calc(100% - 64px);max-width:1680px;height:clamp(640px,88svh,920px);margin:80px auto 110px;border-radius:48px;background:#e1d9f3;border:1px solid #fff9;box-shadow:0 24px 80px #6e719016;scroll-margin-top:120px}
-.wb-glass-artboard{position:absolute;inset:-48px;perspective:1400px;pointer-events:none;user-select:none}
-.wb-glass-layer{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 50%;pointer-events:none;transform-origin:center;backface-visibility:hidden}
-.wb-glass-layer-0{z-index:0}
+/* Full-screen composition: preserve each asset's aspect ratio and anchor its artwork to the reference corner. */
+.wb-glass-scene{position:relative;isolation:isolate;overflow:hidden;width:100%;max-width:none;height:100svh;margin:0;border:0;border-radius:0;background:#e1d9f3;box-shadow:none;scroll-margin-top:0}
+.wb-glass-artboard{position:absolute;inset:0;perspective:1400px;pointer-events:none;user-select:none}
+.wb-glass-layer{position:absolute;display:block;max-width:none;pointer-events:none;transform-origin:center;backface-visibility:hidden}
+/* Only the soft backdrop covers the viewport. Transparent foreground canvases stay uncropped. */
+.wb-glass-layer-0{z-index:0;inset:0;width:100%;height:100%;object-fit:cover}
+.wb-glass-layer-1,.wb-glass-layer-2{inset:-32px;width:calc(100% + 64px);height:calc(100% + 64px);object-fit:cover}
 .wb-glass-layer-1{z-index:1;opacity:.16}
 .wb-glass-layer-2{z-index:2;opacity:.18}
-.wb-glass-layer-3{z-index:3}
-.wb-glass-layer-4{z-index:4}
-.wb-glass-layer-5{z-index:5}
+.wb-glass-layer-3,.wb-glass-layer-4,.wb-glass-layer-5{height:auto;aspect-ratio:1916/821;object-fit:contain}
+.wb-glass-layer-3{z-index:3;left:-36px;bottom:-24px;width:calc(100% + 72px)}
+.wb-glass-layer-4{z-index:4;right:-34px;bottom:-18px;width:72%}
+.wb-glass-layer-5{z-index:5;left:-36px;top:-20px;width:74%}
 .wb-glass-scene[data-pointer-motion="moving"] .wb-glass-layer:not(.wb-glass-layer-0){will-change:transform}
 /* The surface morphs independently, so content never stretches with the droplet. */
-.wb-glass-card{position:absolute;z-index:6;left:37%;top:54%;transform:translate(-50%,-50%);width:480px;max-width:calc(100% - 48px);color:#253b4c}
+.wb-glass-card{position:absolute;z-index:6;left:38%;top:53%;transform:translate(-50%,-50%);width:480px;max-width:calc(100% - 48px);color:#253b4c}
 .wb-glass-surface{position:absolute;inset:0;border:1px solid #ffffffd9;border-radius:34px;background:linear-gradient(135deg,#ffffff9e,#fdf5ff70 48%,#ebf6ff8c);-webkit-backdrop-filter:blur(26px) saturate(125%);backdrop-filter:blur(26px) saturate(125%);box-shadow:0 24px 64px #56527826,0 3px 12px #605b7b0d,inset 0 1px 0 #fff,inset 1px 0 0 #ffffffb3,inset -1px -1px 0 #f8e4ff99;transform-origin:center;pointer-events:none}
 .wb-glass-surface::before{content:'';position:absolute;inset:3px;border-radius:inherit;border:1px solid #ffffff75;mask-image:linear-gradient(135deg,#000,transparent 38%,transparent 65%,#000);-webkit-mask-image:linear-gradient(135deg,#000,transparent 38%,transparent 65%,#000)}
 .wb-glass-surface::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(125deg,#fff7,transparent 24%,transparent 72%,#ffffff40);opacity:.65}
@@ -475,12 +478,14 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.wb-glass-surface{background:linear-gradient(135deg,#fff9ffed,#edf5ffed)}}
 @media(min-width:1400px){.wb-glass-card{left:38%;width:510px}.wb-glass-content{padding:50px 48px 44px}}
 @media(max-width:809px){
- .wb-glass-scene{width:calc(100% - 24px);height:clamp(660px,88svh,820px);margin:40px auto 70px;border-radius:30px}
- .wb-glass-card{left:50%;top:55%;width:430px;max-width:calc(100% - 36px)}
+ .wb-glass-scene{width:100%;height:100svh;margin:0;border-radius:0}
+ .wb-glass-layer-3{left:-40%;width:180%;bottom:-24px}
+ .wb-glass-layer-4{width:135%;right:-46px;bottom:-16px}
+ .wb-glass-layer-5{width:140%;left:-56px;top:-20px}
+ .wb-glass-card{left:50%;top:52%;width:430px;max-width:calc(100% - 36px)}
  .wb-glass-content{padding:38px 30px 32px}
  .wb-glass-card h2{font-size:clamp(48px,8vw,62px)}
  .wb-glass-description{font-size:14px}
- .wb-glass-layer{object-position:56% 50%}
  .wb-glass-eyebrow{font-size:9px;margin-bottom:20px}
 }
 @media(max-width:400px){.wb-glass-content{padding:34px 24px 28px}.wb-glass-card h2{font-size:48px}.wb-glass-cta{font-size:13px;gap:20px}.wb-glass-description{margin-top:20px;margin-bottom:24px}}
@@ -489,5 +494,16 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
  .wb-glass-scene .wb-glass-surface{animation:none!important;transform:none!important;border-radius:34px!important;opacity:1!important}
  .wb-glass-scene .wb-glass-content{animation:none!important;transform:none!important;opacity:1!important;pointer-events:auto!important}
  .wb-glass-cta{transition:none}
+}
+
+/* A landscape phone still gets one complete screen with a readable card. */
+@media(max-height:600px){
+ .wb-glass-card{top:55%;width:400px}
+ .wb-glass-content{padding:24px 30px}
+ .wb-glass-eyebrow{margin-bottom:12px;font-size:9px}
+ .wb-glass-card h2{font-size:44px}
+ .wb-glass-description{font-size:13px;line-height:1.5;margin:14px 0 18px}
+ .wb-glass-cta{font-size:12px;padding-left:16px;gap:18px}
+ .wb-glass-arrow{width:30px;height:30px;font-size:18px}
 }
 
