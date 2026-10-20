@@ -3,15 +3,17 @@
 .footer-bloom .footer-scene{
   --footer-enter:1;
   position:relative;isolation:isolate;overflow:hidden;
-  background:#e9e6d6;
+  background:linear-gradient(145deg,#f3e6d8,#e6e5d3 60%,#e8dfcf);
   color:#243e35;transform-origin:center top;
   transform:translate3d(0,calc((1 - var(--footer-enter))*48px),0) scale(calc(.94 + var(--footer-enter)*.06));
   opacity:calc(.45 + var(--footer-enter)*.55);
   border-radius:calc((1 - var(--footer-enter))*56px);
 }
 .footer-bloom .footer-scene::before{
-  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  content:"";position:absolute;inset:auto 0 0;aspect-ratio:1916/821;z-index:0;pointer-events:none;
   background:url('../assets/footer-bloom-floral.webp') center center / cover no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 22%);
+  mask-image:linear-gradient(180deg,transparent,#000 22%);
 }
 .footer-bloom .footer-scene::after{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
@@ -33,6 +35,9 @@
 .footer-bloom a:focus-visible,
 .footer-bloom button:focus-visible,
 .footer-bloom input:focus-visible{outline-color:#294e3c}
+@media(max-width:809px){
+  .footer-bloom .footer-scene::before{aspect-ratio:1/1;background-position:right bottom}
+}
 @media(prefers-reduced-motion:reduce){
   .footer-bloom .footer-scene{transform:none;opacity:1;border-radius:0}
 }
