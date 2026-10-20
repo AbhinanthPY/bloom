@@ -149,7 +149,8 @@ const articles = [
   "title": "5 Postpartum Problems Mothers Often Ignore",
   "description": "Leaking, pelvic discomfort, core changes and other symptoms deserve a conversation. You do not have to wait until they disrupt daily life to ask for support.",
   "category": "Postpartum Care",
-  "image": "journal-postpartum-problems.webp",
+  "image": "journal-postpartum-cover-1086.webp",
+  "imageStem": "journal-postpartum-cover",
   "url": "article-hydration.html",
   "sources": [{"label":"RCOG: Recovery after a perineal tear","url":"https://www.rcog.org.uk/for-the-public/perineal-tears-and-episiotomies-in-childbirth/third-and-fourth-degree-tears-oasi/"},{"label":"NHS: Your post-pregnancy body","url":"https://www.nhs.uk/baby/support-and-services/your-post-pregnancy-body/"},{"label":"RCOG: Pelvic floor health","url":"https://www.rcog.org.uk/about-us/campaigning-and-opinions/position-statements/pelvic-floor-health-position-statement/"},{"label":"NICE: Pelvic floor dysfunction recommendations","url":"https://www.nice.org.uk/guidance/ng210/chapter/Recommendations"}],
   "body": [
