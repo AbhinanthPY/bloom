@@ -76,3 +76,5 @@
 .service-detail-heading h2{color:#003b66}
 
 .journal-poster{display:block;width:100%}
+.journal-list .article-card-landscape{align-self:start}
+.journal-list .article-card-landscape .article-image{aspect-ratio:1672/941}

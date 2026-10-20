@@ -70,4 +70,6 @@
 #home-journal .article-image img{position:static;display:block;width:100%;height:auto;object-fit:cover}
 #home-journal .article-card:hover img{transform:none}
 #home-journal .article-copy{flex:1}
+#home-journal .article-card-landscape{align-self:start}
+#home-journal .article-card-landscape .article-image{aspect-ratio:1672/941}
 @media(max-width:520px){#home-journal .journal-grid{grid-template-columns:1fr}}

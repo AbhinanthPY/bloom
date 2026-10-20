@@ -129,7 +129,10 @@ const articles = [
   "title": "New Mom Neck Pain?",
   "description": "Feeding, holding and carrying a newborn can keep your neck and shoulders in one position for long stretches. Small comfort adjustments may help.",
   "category": "Postpartum Care",
-  "image": "journal-new-mom-neck-pain.webp",
+  "image": "journal-neck-pain-cover-1672.webp",
+  "imageStem": "journal-neck-pain-cover",
+  "imageWidth": 1672,
+  "imageHeight": 941,
   "url": "article-guidance.html",
   "sources": [{"label":"NHS: Neck pain","url":"https://www.nhs.uk/symptoms/neck-pain-and-stiff-neck/"},{"label":"NHS: Breastfeeding positions and attachment","url":"https://www.nhs.uk/baby/breastfeeding-and-bottle-feeding/breastfeeding/positioning-and-attachment/"},{"label":"NHS: Breastfeeding positions","url":"https://www.nhs.uk/best-start-in-life/baby/feeding-your-baby/breastfeeding/how-to-breastfeed/breastfeeding-positions/"}],
   "body": [
@@ -168,11 +171,13 @@ const articles = [
  }
 ];
 const journalPoster = (a,lazy=true) => {
- const stem=a.image.replace(/\.webp$/,'');
+ const stem=a.imageStem||a.image.replace(/\.webp$/,'');
+ const widths=a.imageWidth>1086?[648,1086,a.imageWidth]:[648,1086];
+ const sources=type=>widths.map(width=>`${ASSET}${stem}-${width}.${type} ${width}w`).join(', ');
  const sizes=lazy?'(max-width:520px) calc(100vw - 56px), (max-width:809px) 320px, 500px':'(max-width:1120px) calc(100vw - 48px), 1072px';
- return `<picture class="journal-poster"><source type="image/avif" srcset="${ASSET}${stem}-648.avif 648w, ${ASSET}${stem}-1086.avif 1086w" sizes="${sizes}"><img src="${ASSET}${stem}-${lazy?'648':'1086'}.webp" srcset="${ASSET}${stem}-648.webp 648w, ${ASSET}${stem}-1086.webp 1086w" sizes="${sizes}" alt="${escapeHtml(a.title)}" width="1086" height="1448" loading="eager" decoding="async" fetchpriority="${lazy?'low':'high'}"></picture>`;
+ return `<picture class="journal-poster"><source type="image/avif" srcset="${sources('avif')}" sizes="${sizes}"><img src="${ASSET}${stem}-${lazy?'648':'1086'}.webp" srcset="${sources('webp')}" sizes="${sizes}" alt="${escapeHtml(a.title)}" width="${a.imageWidth||1086}" height="${a.imageHeight||1448}" loading="eager" decoding="async" fetchpriority="${lazy?'low':'high'}"></picture>`;
 };
-const articleCard = a => `<a class="article-card reveal" href="${a.url}" data-category="${a.category}"><div class="article-copy"><h3>${a.title}</h3><p>${a.description}</p></div><div class="article-image">${journalPoster(a)}</div></a>`;
+const articleCard = a => `<a class="article-card reveal${a.imageWidth>a.imageHeight?' article-card-landscape':''}" href="${a.url}" data-category="${a.category}"><div class="article-copy"><h3>${a.title}</h3><p>${a.description}</p></div><div class="article-image">${journalPoster(a)}</div></a>`;
 const journalSection = () => `<section class="section container journal-feature" id="home-journal">${heading('Our Journal','Notes for your next chapter.','Thoughtful reading on pelvic health, postpartum recovery and finding your way back to everyday life.')}<div class="journal-grid">${articles.map(articleCard).join('')}</div><div class="section-end reveal"><p>Explore our Journal for thoughtful insights on women’s health, recovery and everyday confidence.</p>${button('Browse insights','journal.html')}</div></section>`;
 function home(){
  return `<section class="hero" id="hero"><div class="hero-bg" aria-hidden="true"></div><div class="hero-petals" aria-hidden="true"><span class="hero-petal hero-petal-1"><img src="assets/bloom-petal.svg" alt="" decoding="async"></span><span class="hero-petal hero-petal-2"><img src="assets/bloom-petal.svg" alt="" decoding="async"></span><span class="hero-petal hero-petal-3"><img src="assets/bloom-petal.svg" alt="" decoding="async"></span><span class="hero-petal hero-petal-4"><img src="assets/bloom-petal.svg" alt="" decoding="async"></span></div><div class="hero-portrait">${image(images.hero,'A mother holding her sleeping baby','',false)}<canvas id="portrait-depth" aria-hidden="true"></canvas></div><div class="hero-copy"><h1 aria-label="Heal. Rebuild. Bloom."><span class="hero-line">Heal. Rebuild.</span> <span class="hero-line">Bloom.</span></h1><p>Women’s health physiotherapy for pelvic care, postpartum recovery and everyday confidence.</p><div class="hero-actions">${button('Book a consultation')}${button('Explore our services','#our-services','light')}</div></div></section>
