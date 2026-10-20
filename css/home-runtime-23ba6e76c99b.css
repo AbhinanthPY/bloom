@@ -434,3 +434,60 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
 .journal-list .article-card-landscape{align-self:start}
 .journal-list .article-card-landscape .article-image{aspect-ratio:1672/941}
 
+
+/* Source: css/bloom-glass.css */
+/* Independent mouse-only scene. All six images share the same artboard and crop. */
+.wb-glass-scene{position:relative;isolation:isolate;overflow:hidden;width:calc(100% - 64px);max-width:1680px;height:clamp(640px,88svh,920px);margin:80px auto 110px;border-radius:48px;background:#e1d9f3;border:1px solid #fff9;box-shadow:0 24px 80px #6e719016;scroll-margin-top:120px}
+.wb-glass-artboard{position:absolute;inset:-48px;perspective:1400px;pointer-events:none;user-select:none}
+.wb-glass-layer{position:absolute;inset:0;display:block;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 50%;pointer-events:none;transform-origin:center;backface-visibility:hidden}
+.wb-glass-layer-0{z-index:0}
+.wb-glass-layer-1{z-index:1;opacity:.16}
+.wb-glass-layer-2{z-index:2;opacity:.18}
+.wb-glass-layer-3{z-index:3}
+.wb-glass-layer-4{z-index:4}
+.wb-glass-layer-5{z-index:5}
+.wb-glass-scene[data-pointer-motion="moving"] .wb-glass-layer:not(.wb-glass-layer-0){will-change:transform}
+/* The surface morphs independently, so content never stretches with the droplet. */
+.wb-glass-card{position:absolute;z-index:6;left:37%;top:54%;transform:translate(-50%,-50%);width:480px;max-width:calc(100% - 48px);color:#253b4c}
+.wb-glass-surface{position:absolute;inset:0;border:1px solid #ffffffd9;border-radius:34px;background:linear-gradient(135deg,#ffffff9e,#fdf5ff70 48%,#ebf6ff8c);-webkit-backdrop-filter:blur(26px) saturate(125%);backdrop-filter:blur(26px) saturate(125%);box-shadow:0 24px 64px #56527826,0 3px 12px #605b7b0d,inset 0 1px 0 #fff,inset 1px 0 0 #ffffffb3,inset -1px -1px 0 #f8e4ff99;transform-origin:center;pointer-events:none}
+.wb-glass-surface::before{content:'';position:absolute;inset:3px;border-radius:inherit;border:1px solid #ffffff75;mask-image:linear-gradient(135deg,#000,transparent 38%,transparent 65%,#000);-webkit-mask-image:linear-gradient(135deg,#000,transparent 38%,transparent 65%,#000)}
+.wb-glass-surface::after{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(125deg,#fff7,transparent 24%,transparent 72%,#ffffff40);opacity:.65}
+.wb-glass-content{position:relative;padding:46px 44px 40px}
+.wb-glass-eyebrow{margin:0 0 22px;font:500 10px/1.3 var(--sans);letter-spacing:.23em;color:#526172}
+.wb-glass-card h2{margin:0;max-width:390px;font:400 clamp(54px,4.9vw,72px)/.98 var(--serif);letter-spacing:-.035em;color:#263d50;text-wrap:balance}
+.wb-glass-description{margin:22px 0 28px;max-width:340px;font:400 15px/1.75 var(--sans);color:#485b6c}
+.wb-glass-cta{display:inline-flex;align-items:center;gap:28px;padding:7px 7px 7px 22px;border-radius:999px;border:1px solid #fff;background:linear-gradient(135deg,#ffffffc2,#f7f2ff80);box-shadow:0 5px 16px #7e749514,inset 0 1px 0 #fff;color:#273e51;font:500 14px/1.2 var(--sans);text-decoration:none;transition:background .2s,box-shadow .2s}
+.wb-glass-arrow{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#ffffffb5;border:1px solid #fff;color:#435c72;font-size:21px}
+.wb-glass-cta:hover{background:#ffffffe0;box-shadow:0 8px 20px #665c8c24}
+.wb-glass-cta:focus-visible{outline:3px solid #435e78;outline-offset:5px}
+.wb-glass-scene[data-glass-entrance="pending"] .wb-glass-surface{transform:scale(.125,.15);border-radius:50%;opacity:.8}
+.wb-glass-scene[data-glass-entrance="pending"] .wb-glass-content{opacity:0;pointer-events:none}
+.wb-glass-scene[data-glass-entrance="entering"] .wb-glass-surface{animation:wb-glass-grow 1100ms both;will-change:transform,border-radius}
+.wb-glass-scene[data-glass-entrance="entering"] .wb-glass-content{animation:wb-glass-content-in 650ms 350ms both}
+@keyframes wb-glass-grow{
+ 0%{transform:scale(.125,.15);border-radius:50%;opacity:.8}
+ 32%{transform:scale(.32,.4);border-radius:48%;opacity:1}
+ 72%{transform:scale(1.025,.985);border-radius:38px}
+ 88%{transform:scale(.995,1.008);border-radius:32px}
+ 100%{transform:scale(1);border-radius:34px;opacity:1}
+}
+@keyframes wb-glass-content-in{from{opacity:0;transform:translate3d(0,14px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.wb-glass-surface{background:linear-gradient(135deg,#fff9ffed,#edf5ffed)}}
+@media(min-width:1400px){.wb-glass-card{left:38%;width:510px}.wb-glass-content{padding:50px 48px 44px}}
+@media(max-width:809px){
+ .wb-glass-scene{width:calc(100% - 24px);height:clamp(660px,88svh,820px);margin:40px auto 70px;border-radius:30px}
+ .wb-glass-card{left:50%;top:55%;width:430px;max-width:calc(100% - 36px)}
+ .wb-glass-content{padding:38px 30px 32px}
+ .wb-glass-card h2{font-size:clamp(48px,8vw,62px)}
+ .wb-glass-description{font-size:14px}
+ .wb-glass-layer{object-position:56% 50%}
+ .wb-glass-eyebrow{font-size:9px;margin-bottom:20px}
+}
+@media(max-width:400px){.wb-glass-content{padding:34px 24px 28px}.wb-glass-card h2{font-size:48px}.wb-glass-cta{font-size:13px;gap:20px}.wb-glass-description{margin-top:20px;margin-bottom:24px}}
+@media(prefers-reduced-motion:reduce){
+ .wb-glass-layer{transform:none!important}
+ .wb-glass-scene .wb-glass-surface{animation:none!important;transform:none!important;border-radius:34px!important;opacity:1!important}
+ .wb-glass-scene .wb-glass-content{animation:none!important;transform:none!important;opacity:1!important;pointer-events:auto!important}
+ .wb-glass-cta{transition:none}
+}
+

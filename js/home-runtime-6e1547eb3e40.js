@@ -136,6 +136,18 @@ const social = () => `<div class="socials"><a href="mailto:info@wellcarephysioth
 const proof = () => `<div class="client-proof"><h4 style="font-size:30px">Care that understands you.</h4><p style="margin-top:20px">Private, respectful consultations.</p><p style="margin-top:16px">Individual assessment and personal planning.</p><p style="margin-top:16px">Practical guidance for everyday life.</p></div>`;
 const careCTA = () => `<section class="container care-cta reveal"><div class="cta-copy"><h3>Ready to begin<br>your care?</h3><p>Every step at Wellcare Bloom starts with listening. Together, we plan care around your comfort, function, recovery and everyday goals.</p>${button()}</div><div>${proof()}<p style="font-size:13px;margin-top:32px;text-align:center"><a href="mailto:info@wellcarephysiotherapy.in">Send us an email</a> — we’re happy to help you find a starting point.</p>${social()}</div></section>`;
 const bloomExperience = () => `<section class="bloom-experience" id="bloom" aria-labelledby="bloom-title" data-bloom-state="static"><div class="bloom-stage"><div class="bloom-fallback" aria-hidden="true"></div><div class="bloom-motion-media" aria-hidden="true"><video class="bloom-video" muted playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" poster="assets/bloom-flower-start.webp" data-desktop-src="assets/bloom-flower-ready.mp4" data-mobile-src="assets/bloom-flower-ready-mobile.mp4"></video><img class="bloom-final-frame" src="assets/bloom-flower-end.webp" alt="" width="1280" height="720" loading="eager" decoding="async" fetchpriority="low"></div><div class="bloom-atmosphere" aria-hidden="true"></div><div class="bloom-message"><p class="bloom-kicker"><span>YOUR WELLBEING FIRST</span></p><h2 id="bloom-title" aria-label="Care that blooms."><span class="bloom-title-line bloom-title-care" aria-hidden="true">CARE THAT</span><span class="bloom-title-line bloom-title-blooms" aria-hidden="true">BLOOMS</span></h2></div><div class="bloom-brand" aria-hidden="true"><img src="assets/wellcare-bloom-white.webp" alt="" width="1880" height="837" loading="eager" decoding="async" fetchpriority="low"></div></div></section>`;
+// Editable content for the standalone mouse-parallax section.
+const glassBloomContent = {
+ eyebrow: 'WELLCARE BLOOM',
+ heading: 'A gentle space to bloom.',
+ description: 'Thoughtful care for every stage of your recovery and wellbeing. Your journey, at your pace.',
+ cta: 'Explore Our Care',
+ href: 'services.html'
+};
+const glassBloomSection = () => {
+ const layers=['01-background','02-atmosphere-bubbles','03-soft-sakura-bokeh','04-glass-waves','05-glass-flower-right','06-cherry-branch-top-left'];
+ return `<section class="wb-glass-scene" id="gentle-bloom" aria-labelledby="gentle-bloom-title" data-glass-scene><div class="wb-glass-artboard" aria-hidden="true">${layers.map((name,index)=>`<img class="wb-glass-layer wb-glass-layer-${index}" src="assets/bloom-glass/${name}.webp" alt="" width="1916" height="821" loading="eager" decoding="async" fetchpriority="low" draggable="false">`).join('')}</div><div class="wb-glass-card"><div class="wb-glass-surface" aria-hidden="true"></div><div class="wb-glass-content"><p class="wb-glass-eyebrow">${glassBloomContent.eyebrow}</p><h2 id="gentle-bloom-title">${glassBloomContent.heading}</h2><p class="wb-glass-description">${glassBloomContent.description}</p><a class="wb-glass-cta" href="${glassBloomContent.href}"><span>${glassBloomContent.cta}</span><span class="wb-glass-arrow" aria-hidden="true">↗</span></a></div></div></section>`;
+};
 const priceData = [
  [
   "Postpartum<br>Recovery",
@@ -226,6 +238,7 @@ function home(){
  <section class="section journey container">${heading('','Your Bloom Journey.','From listening and assessment to rehabilitation and review, every step is shaped around you.')}<div class="journey-layout"><div class="reveal">${image('journey-pregnant-woman.webp','Pregnant woman standing in side profile','journey-face')}</div><div class="journey-steps">${[['Listen & Assess.','We listen to your concerns and assess movement, posture, breathing, core and pelvic floor function where appropriate.'],['Plan & Rebuild.','Together, we agree on a personal plan and work progressively on mobility, strength, coordination or relaxation to suit your needs.'],['Review & Progress.','We review your progress, adapt your plan and offer practical guidance for daily life, recovery and returning to activity.']].map((s,i)=>`<div class="journey-step reveal"><span class="step-number">0${i+1}</span><div><h4>${s[0]}</h4><p>${s[1]}</p></div></div>`).join('')}</div></div></section>
  ${bloomExperience()}
  <section class="section wide" id="our-approach">${heading('Why Wellcare Bloom?','Care that understands you.','Dedicated women’s health physiotherapy, with private consultations, personal plans and practical support for everyday life.')}<div class="approach-grid">${[['Listening first','Start with a confidential conversation. We take time to understand your concerns, history and goals in a private, respectful space.','approach-listening-background.webp'],['Focused<br>care','Our focus is women’s health and pelvic rehabilitation, with individual assessment and care guided by your needs.','approach-physiotherapy.webp'],['Your pace,<br>your plan','Rehabilitation reflects your symptoms, goals and recovery stage. We work with you towards better comfort, function and confidence.','approach-mother-baby.webp'],['Progress<br>together','Clear communication, regular review and practical guidance help connect your care with everyday life. Your plan adapts as your needs change.','approach-longterm-background.webp']].map((c,i)=>`<div class="approach-card reveal approach-${['listening','careful','results','longterm'][i]}"><h4>${c[0]}</h4><p>${c[1]}</p>${image(c[2],i===1?'Mother practising gentle breathing during postpartum physiotherapy':i===2?'Mother holding her sleeping newborn':'')}</div>`).join('')}</div></section>
+ ${glassBloomSection()}
  ${pricing()}
  ${journalSection()}`;
 }
@@ -847,6 +860,114 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
   await waitForFrame(time);
   warming=false;update();
  });
+})();
+
+;
+
+/* Source: js/bloom-glass.js */
+/* Mouse-only depth for the standalone glass scene. No scroll listener or idle loop. */
+'use strict';
+(() => {
+ const scene=document.querySelector('[data-glass-scene]');
+ if(!scene)return;
+ const layers=[...scene.querySelectorAll('.wb-glass-layer')];
+ const surface=scene.querySelector('.wb-glass-surface');
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ const fine=matchMedia('(hover: hover) and (pointer: fine)');
+ // All source images retain their common crop; only these small offsets differ.
+ const depths=[[0,0,0],[-6,-3,.06],[10,5,.12],[-16,5,.2],[25,-10,.32],[-32,12,.42]];
+ const clamp=n=>Math.max(-1,Math.min(1,n));
+ let current={x:0,y:0},target={x:0,y:0},raf=0,last=0;
+ let visible=false,entered=false,enabled=false,observer=null,destroyed=false;
+ scene.dataset.glassEntrance=reduced.matches?'revealed':'pending';
+
+ function stop(){
+  cancelAnimationFrame(raf);raf=0;last=0;
+  // Preserve the last position on leave, visibility changes and scroll away.
+  target={...current};
+  scene.dataset.pointerMotion=enabled?'settled':'off';
+ }
+ function paint(){
+  layers.forEach((layer,index)=>{
+   const [x,y,tilt]=depths[index];
+   layer.style.transform=`translate3d(${(current.x*x).toFixed(3)}px,${(current.y*y).toFixed(3)}px,0) rotateX(${(-current.y*tilt).toFixed(3)}deg) rotateY(${(current.x*tilt).toFixed(3)}deg)`;
+  });
+ }
+ function update(now){
+  raf=0;
+  if(!enabled||!visible||document.hidden){stop();return;}
+  const dt=last?Math.min(64,now-last):16;
+  last=now;
+  const ease=1-Math.exp(-dt/95);
+  current.x+=(target.x-current.x)*ease;
+  current.y+=(target.y-current.y)*ease;
+  const settled=Math.abs(target.x-current.x)<.001&&Math.abs(target.y-current.y)<.001;
+  if(settled)current={...target};
+  paint();
+  if(settled){last=0;scene.dataset.pointerMotion='settled';}
+  else raf=requestAnimationFrame(update);
+ }
+ function pointerMove(event){
+  if(event.pointerType!=='mouse'||!enabled||!visible||document.hidden)return;
+  const rect=scene.getBoundingClientRect();
+  target.x=clamp((event.clientX-rect.left)/rect.width*2-1);
+  target.y=clamp((event.clientY-rect.top)/rect.height*2-1);
+  if(Math.abs(target.x-current.x)<.001&&Math.abs(target.y-current.y)<.001)return;
+  scene.dataset.pointerMotion='moving';
+  if(!raf)raf=requestAnimationFrame(update);
+ }
+ function reveal(immediate=false){
+  if(entered)return;
+  entered=true;
+  scene.dataset.glassEntrance=immediate||reduced.matches?'revealed':'entering';
+ }
+ function finishEntrance(event){
+  if(event.target===surface&&event.animationName==='wb-glass-grow')scene.dataset.glassEntrance='revealed';
+ }
+ function configure(){
+  enabled=fine.matches&&!reduced.matches;
+  stop();
+  if(!enabled){current={x:0,y:0};target={...current};layers.forEach(layer=>layer.style.removeProperty('transform'));}
+  if(reduced.matches)reveal(true);
+ }
+ function observe(){
+  if(destroyed)return;
+  observer=new IntersectionObserver(entries=>{
+   const entry=entries[0];
+   visible=entry.isIntersecting;
+   if(!visible)stop();
+   if(entry.isIntersecting&&entry.intersectionRatio>=.22)reveal();
+  },{threshold:[0,.22]});
+  observer.observe(scene);
+ }
+ function onVisibility(){if(document.hidden)stop();}
+ function onFocus(){reveal(true);scene.dataset.glassEntrance='revealed';}
+ function teardown(event){
+  stop();
+  if(event.persisted)return; // Preserve a completed entrance in the back/forward cache.
+  destroyed=true;
+  observer?.disconnect();
+  scene.removeEventListener('pointermove',pointerMove);
+  scene.removeEventListener('focusin',onFocus);
+  surface.removeEventListener('animationend',finishEntrance);
+  reduced.removeEventListener('change',configure);
+  fine.removeEventListener('change',configure);
+  document.removeEventListener('visibilitychange',onVisibility);
+  window.removeEventListener('bloom:page-ready',observe);
+  window.removeEventListener('pagehide',teardown);
+ }
+ scene.addEventListener('pointermove',pointerMove,{passive:true});
+ // Pointer leave intentionally has no reset animation.
+ scene.addEventListener('focusin',onFocus);
+ surface.addEventListener('animationend',finishEntrance);
+ reduced.addEventListener('change',configure);
+ fine.addEventListener('change',configure);
+ document.addEventListener('visibilitychange',onVisibility);
+ window.addEventListener('pagehide',teardown);
+ configure();
+ // The existing startup gate decodes all six layers before this observer can reveal the card.
+ if(document.documentElement.classList.contains('page-loading'))window.addEventListener('bloom:page-ready',observe,{once:true});
+ else observe();
 })();
 
 ;
