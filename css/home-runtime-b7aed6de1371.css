@@ -114,7 +114,8 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
 
 
 /* Source: css/bloom-parallax.css */
-/* Scroll-scrubbed flower film; headings and branding retain their existing layout. */
+/* Scroll-scrubbed flower film with a live, two-line editorial headline. */
+@font-face{font-family:BloomDisplay;src:url('../assets/bloom-display.woff2') format('woff2');font-style:normal;font-weight:400;font-display:block}
 .bloom-experience{position:relative;height:100svh;min-height:620px;margin:40px 0 120px;background:transparent}
 .bloom-stage{position:relative;height:100%;width:100%;overflow:hidden;isolation:isolate;background:#d6b5b5}
 .bloom-scroll-active{height:350svh;min-height:0}
@@ -127,38 +128,52 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
 .bloom-video-ready .bloom-video{opacity:1}
 .bloom-final-frame{opacity:var(--bloom-final-opacity,0);transform:translate3d(var(--bloom-final-x,0px),var(--bloom-final-y,0px),0) scale(var(--bloom-final-scale,1));will-change:transform}
 .bloom-atmosphere{z-index:3;background:linear-gradient(180deg,#21182738,#21182748 65%,#21182720)}
-.bloom-kicker{position:absolute;top:15%;left:0;width:100%;z-index:5;text-align:center;font:14px/.95 var(--serif);letter-spacing:-.015em;color:#273842;text-transform:uppercase}
-#bloom-title{display:contents}
-.bloom-title-line{position:absolute;left:0;width:100%;z-index:4;text-align:center;display:block;color:#fffdf8;font:clamp(110px,17vw,220px)/.8 var(--serif);text-transform:uppercase;letter-spacing:-.035em;text-shadow:0 2px 20px #35222d55;white-space:nowrap;will-change:transform}
-.bloom-title-extra{top:25%}
-.bloom-title-ordinary{top:39%}
-.bloom-title-last{top:58%;font-size:clamp(85px,11.5vw,145px);letter-spacing:-.035em}
+.bloom-message{position:absolute;left:50%;top:51%;width:86%;max-width:1440px;transform:translate(-50%,-50%);z-index:4;text-align:center;font-family:BloomDisplay,Didot,'Times New Roman',serif}
+.bloom-kicker{display:flex;align-items:center;gap:clamp(12px,2.2vw,36px);margin:0 0 clamp(20px,2.5vw,42px);color:#990e34;font:400 clamp(10px,2.45vw,38px)/1.2 BloomDisplay,Didot,'Times New Roman',serif;letter-spacing:.18em;text-transform:uppercase}
+.bloom-kicker span{white-space:nowrap}
+.bloom-kicker::before,.bloom-kicker::after{content:'';flex:1;min-width:0;height:1px;background:currentColor}
+#bloom-title{display:block;margin:0;font-weight:400}
+.bloom-title-line{display:block;position:relative;white-space:nowrap;font-family:BloomDisplay,Didot,'Times New Roman',serif;font-weight:400;font-style:normal;line-height:.9;text-transform:uppercase;letter-spacing:-.045em;color:#ae153b;text-shadow:none;will-change:transform}
+.bloom-title-care{font-size:min(14.3vw,238px)}
+.bloom-title-blooms{font-size:min(19.9vw,332px);margin-top:.02em;letter-spacing:-.055em}
+@supports ((background-clip:text) or (-webkit-background-clip:text)){
+ .bloom-title-line{background:linear-gradient(115deg,#8f0b31 4%,#ad1439 50%,#f52e4d 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+ .bloom-title-blooms{background-image:radial-gradient(ellipse at 100% 100%,#ffd77a 0%,#ffad6c 12%,transparent 40%),linear-gradient(170deg,#910c31 2%,#ac163d 36%,#ef3656 72%,#ff6a65 100%)}
+}
 .bloom-brand{position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);width:min(720px,76vw);z-index:5;pointer-events:none}
 .bloom-brand img{display:block;width:100%;height:auto;opacity:0;filter:brightness(0) invert(1) drop-shadow(0 3px 20px #35222d66)}
 .bloom-scroll-active .bloom-brand img{will-change:transform,opacity}
-
 .bloom-in-view .sound-control{left:32px;color:#fffdf8}
 .bloom-in-view .sound-label{font-size:11px;text-shadow:0 1px 6px #183e45b3}
-@media(max-width:1199px){.bloom-title-line{font-size:18vw}.bloom-title-last{font-size:12vw}}
-@media(max-width:809px){.bloom-experience{height:100svh;min-height:620px;margin:20px 0 70px}.bloom-fallback{background-position:53% center}.bloom-kicker{top:18%;font-size:12px}.bloom-title-extra{top:29%;font-size:24vw}.bloom-title-ordinary{top:40%;font-size:21vw;letter-spacing:-.045em}.bloom-title-last{top:55%;font-size:18vw}.bloom-in-view .sound-control{left:20px}}
-@media(max-width:809px){.bloom-scroll-active{height:260svh;min-height:0}.bloom-video,.bloom-final-frame{object-position:32% center}.bloom-fallback{background-position:32% center}}
-@media(max-height:700px) and (min-width:810px){.bloom-kicker{top:18%;font-size:12px}.bloom-title-extra{top:28%;font-size:15vw}.bloom-title-ordinary{top:43%;font-size:15vw}.bloom-title-last{top:61%;font-size:10vw}}
-@media(prefers-reduced-motion:reduce){.bloom-experience{height:auto;min-height:0}.bloom-stage{position:relative;height:100svh;min-height:620px}.bloom-title-line{transform:none!important;opacity:1!important;will-change:auto}.bloom-video{transition:none}.bloom-final-frame{will-change:auto}}
+@media(max-width:809px){
+ .bloom-experience{height:100svh;min-height:620px;margin:20px 0 70px}
+ .bloom-scroll-active{height:260svh;min-height:0}
+ .bloom-video,.bloom-final-frame{object-position:32% center}
+ .bloom-fallback{background-position:32% center}
+ .bloom-message{top:49%;width:90%}
+ .bloom-kicker{font-size:2.6vw;gap:3vw;margin-bottom:5vw;letter-spacing:.15em}
+ .bloom-title-care{font-size:15vw}
+ .bloom-title-blooms{font-size:20.9vw}
+ .bloom-in-view .sound-control{left:20px}
+}
+@media(prefers-reduced-motion:reduce){
+ .bloom-experience{height:auto;min-height:0}
+ .bloom-stage{position:relative;height:100svh;min-height:620px}
+ .bloom-title-line{transform:none!important;opacity:1!important;will-change:auto}
+ .bloom-video{transition:none}
+ .bloom-final-frame{will-change:auto}
+}
 .bloom-scroll-static .bloom-brand{top:84%;width:min(280px,62vw)}
 .bloom-scroll-static .bloom-brand img{opacity:1}
-
 .bloom-experience[data-bloom-state="static"] .bloom-title-line{transform:none!important;opacity:1!important}
 .bloom-experience[data-bloom-state="static"] .bloom-kicker{opacity:1!important}
-/* Keep the scene within short landscape viewports. */
+/* Keep both headline lines below the navigation in short landscape windows. */
 @media(max-height:620px){
  .bloom-experience,.bloom-stage{min-height:0}
- .bloom-kicker{top:28%;font-size:10px}
- .bloom-title-extra{top:36%;font-size:min(18vw,17svh)}
- .bloom-title-ordinary{top:49%;font-size:min(18vw,17svh)}
- .bloom-title-last{top:64%;font-size:min(10vw,14svh)}
- 
- 
- 
+ .bloom-message{top:58%;width:80%}
+ .bloom-kicker{font-size:min(2vw,3svh);margin-bottom:3svh}
+ .bloom-title-care{font-size:min(13vw,21svh)}
+ .bloom-title-blooms{font-size:min(18vw,29svh)}
 }
 
 

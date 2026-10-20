@@ -135,11 +135,11 @@
   stage.style.borderRadius=`${(small?32:72)*(1-enterStage)}px`;
   section.dataset.bloomProgress=progress.toFixed(3);
   section.dataset.bloomPhase=progress<.15?'entrance':progress<.76?'video':'final-frame';
-  // Keep the existing heading entrance, exit and logo reveal at the same phases.
+  // Keep the two-line message entrance, exit and logo reveal at the same phases.
   lines.forEach((line,index)=>{
    const enter=1-Math.pow(1-clamp((progress-index*.01)/.15),3);
    const exit=smooth((progress-.34-index*.015)/.24);
-   const x=(index===2?1:-1)*stage.clientWidth*[.45,.54,.35][index]*(1-enter);
+   const x=(index%2?1:-1)*stage.clientWidth*(index%2?.45:.54)*(1-enter);
    line.style.transform=`translate3d(${x}px,${-34*exit}px,0)`;
    line.style.opacity=String(1-exit);
   });
