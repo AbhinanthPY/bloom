@@ -1,9 +1,9 @@
-/* Shared footer: Sage Green and leaf curves from the Bloom visual language. */
+/* Shared footer with the supplied floral silk artwork. */
 #footer.footer-bloom{position:relative;background:transparent}
 .footer-bloom .footer-scene{
   --footer-enter:1;
   position:relative;isolation:isolate;overflow:hidden;
-  background:linear-gradient(145deg,#f1f6ed 0%,#dfecd6 36%,#a7c39a 100%);
+  background:#e9e6d6;
   color:#243e35;transform-origin:center top;
   transform:translate3d(0,calc((1 - var(--footer-enter))*48px),0) scale(calc(.94 + var(--footer-enter)*.06));
   opacity:calc(.45 + var(--footer-enter)*.55);
@@ -11,20 +11,17 @@
 }
 .footer-bloom .footer-scene::before{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:url('../assets/footer-leaf.svg') no-repeat -200px 20% / 650px auto,
-    url('../assets/footer-leaf.svg') no-repeat calc(100% + 260px) 86% / 950px auto;
-  opacity:.55;
+  background:url('../assets/footer-bloom-floral.webp') center center / cover no-repeat;
 }
 .footer-bloom .footer-scene::after{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background:radial-gradient(ellipse at 95% 78%,transparent 50%,#ffffff45 50.1%,transparent 50.35%),
-    radial-gradient(ellipse at 10% 35%,transparent 58%,#ffffff45 58.1%,transparent 58.35%);
+  background:linear-gradient(180deg,#fffaf04d,#fffaf01a 55%,#fffaf038);
 }
 .footer-bloom .footer-scene>*{position:relative;z-index:1}
-.footer-bloom p{color:#536652}
+.footer-bloom p{color:#465440}
 .footer-bloom h3{color:#243e35}
 .footer-bloom .footer-panel{
-  background:#fafdf77a;border:1px solid #ffffffb8;
+  background:#fffaf0ad;border:1px solid #ffffffcf;
   box-shadow:0 12px 38px #395d3710,inset 0 1px 0 #ffffffb3;
   -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
 }
@@ -36,9 +33,6 @@
 .footer-bloom a:focus-visible,
 .footer-bloom button:focus-visible,
 .footer-bloom input:focus-visible{outline-color:#294e3c}
-@media(max-width:809px){
-  .footer-bloom .footer-scene::before{background-size:450px auto,600px auto;opacity:.4}
-}
 @media(prefers-reduced-motion:reduce){
   .footer-bloom .footer-scene{transform:none;opacity:1;border-radius:0}
 }
