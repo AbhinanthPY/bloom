@@ -5,7 +5,7 @@ import hashlib
 import re
 
 ROOT = Path(__file__).resolve().parent.parent
-JS = ['js/page-ready.js', 'app.js', 'js/media-loader.js', 'animations.js', 'js/bloom-scroll-video.js', 'js/bloom-glass.js']
+JS = ['js/page-ready.js', 'app.js', 'js/media-loader.js', 'animations.js', 'js/bloom-scroll-video.js', 'js/bloom-glass.js', 'js/bloom-flower-video.js']
 CSS = ['styles.css', 'css/bloom-parallax.css', 'css/approach-imagery.css',
        'css/journal-feature.css', 'css/footer-bloom.css', 'css/home-content.css', 'css/inner-pages.css', 'css/bloom-glass.css']
 

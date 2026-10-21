@@ -146,7 +146,7 @@ const glassBloomContent = {
 };
 const glassBloomSection = () => {
  const layers=['01-background','02-atmosphere-bubbles','03-soft-sakura-bokeh','04-glass-waves','05-glass-flower-right','06-cherry-branch-top-left'];
- return `<section class="wb-glass-scene" id="gentle-bloom" aria-labelledby="gentle-bloom-title" data-glass-scene><div class="wb-glass-artboard" aria-hidden="true">${layers.map((name,index)=>`<img class="wb-glass-layer wb-glass-layer-${index}" src="assets/bloom-glass/${name}.webp" alt="" width="1916" height="821" loading="eager" decoding="async" fetchpriority="low" draggable="false">`).join('')}</div><div class="wb-glass-card"><div class="wb-glass-surface" aria-hidden="true"></div><div class="wb-glass-content"><p class="wb-glass-eyebrow">${glassBloomContent.eyebrow}</p><h2 id="gentle-bloom-title">${glassBloomContent.heading}</h2><p class="wb-glass-description">${glassBloomContent.description}</p><a class="wb-glass-cta" href="${glassBloomContent.href}"><span>${glassBloomContent.cta}</span><span class="wb-glass-arrow" aria-hidden="true">↗</span></a></div></div></section>`;
+ return `<section class="wb-glass-scene" id="gentle-bloom" aria-labelledby="gentle-bloom-title" data-glass-scene><div class="wb-glass-artboard" aria-hidden="true">${layers.map((name,index)=>index===5?`<div class="wb-glass-layer wb-glass-layer-5 wb-flower-motion"><img class="wb-flower-poster" src="assets/bloom-glass/flower-branch-poster.webp" alt="" width="1280" height="720" loading="eager" decoding="async" fetchpriority="low"><video class="wb-flower-video" muted playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" data-webm-src="assets/bloom-glass/flower-branch-alpha.webm" data-hevc-src="assets/bloom-glass/flower-branch-alpha.mov"></video></div>`:`<img class="wb-glass-layer wb-glass-layer-${index}" src="assets/bloom-glass/${name}.webp" alt="" width="1916" height="821" loading="eager" decoding="async" fetchpriority="low" draggable="false">`).join('')}</div><div class="wb-glass-card"><div class="wb-glass-surface" aria-hidden="true"></div><div class="wb-glass-content"><p class="wb-glass-eyebrow">${glassBloomContent.eyebrow}</p><h2 id="gentle-bloom-title">${glassBloomContent.heading}</h2><p class="wb-glass-description">${glassBloomContent.description}</p><a class="wb-glass-cta" href="${glassBloomContent.href}"><span>${glassBloomContent.cta}</span><span class="wb-glass-arrow" aria-hidden="true">↗</span></a></div></div></section>`;
 };
 const priceData = [
  [
@@ -968,6 +968,101 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
  // The existing startup gate decodes all six layers before this observer can reveal the card.
  if(document.documentElement.classList.contains('page-loading'))window.addEventListener('bloom:page-ready',observe,{once:true});
  else observe();
+})();
+
+;
+
+/* Source: js/bloom-flower-video.js */
+/* Transparent, silent flower opening; independent of the mouse-only camera/depth effect. */
+'use strict';
+(() => {
+ const scene=document.querySelector('[data-glass-scene]');
+ const layer=scene?.querySelector('.wb-flower-motion');
+ const video=layer?.querySelector('video');
+ if(!video)return;
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+ let inView=false,ready=false,finished=false,failed=false,objectURL=null,preparing=null,observer=null,destroyed=false;
+ video.muted=true;
+ video.playsInline=true;
+ scene.dataset.flowerState='preparing';
+ // WebKit uses HEVC alpha. Chromium/Firefox use VP9 alpha, avoiding opaque HEVC decoding.
+ const appleWebKit=(!/Chrome|Chromium|Edg\//.test(navigator.userAgent)||/iP(?:hone|ad|od)/.test(navigator.userAgent))&&!!video.canPlayType('video/mp4; codecs="hvc1"');
+ const path=appleWebKit?video.dataset.hevcSrc:video.dataset.webmSrc;
+ scene.dataset.flowerFormat=appleWebKit?'hevc-alpha':'vp9-alpha';
+ function syncPlayback(){
+  if(!ready||failed||destroyed)return;
+  if(reduced.matches){video.pause();layer.classList.remove('is-video-ready');scene.dataset.flowerState='static';return;}
+  layer.classList.add('is-video-ready');
+  if(inView&&!document.hidden&&!finished){
+   video.play().then(()=>{scene.dataset.flowerState='playing';}).catch(()=>{scene.dataset.flowerState='paused';});
+  }else{
+   video.pause();scene.dataset.flowerState=finished?'complete':'paused';
+  }
+ }
+ function waitForFrame(){
+  return new Promise((resolve,reject)=>{
+   const finish=error=>{
+    clearTimeout(timer);video.removeEventListener('loadeddata',check);video.removeEventListener('canplay',check);video.removeEventListener('error',bad);
+    error?reject(error):resolve();
+   };
+   const check=()=>{if(video.readyState>=2)finish();};
+   const bad=()=>finish(Error('Transparent flower video unavailable'));
+   const timer=setTimeout(bad,20000);
+   video.addEventListener('loadeddata',check);video.addEventListener('canplay',check);video.addEventListener('error',bad,{once:true});check();
+  });
+ }
+ function prepare(){
+  if(reduced.matches){scene.dataset.flowerState='static';return Promise.resolve();}
+  if(preparing)return preparing;
+  preparing=(async()=>{
+   const url=new URL(path,document.baseURI).href;
+   video.preload='auto';
+   if(location.protocol==='file:')video.src=url;
+   else{
+    // Buffer the selected file before the startup overlay leaves; ordinary HTTP cache serves repeat visits.
+    const response=await fetch(url,{cache:'force-cache'});
+    if(!response.ok)throw Error('Flower video could not load');
+    objectURL=URL.createObjectURL(await response.blob());video.src=objectURL;
+   }
+   video.load();await waitForFrame();ready=true;
+   scene.dataset.flowerState='ready';
+   if(!reduced.matches)layer.classList.add('is-video-ready');
+   syncPlayback();
+  })().catch(()=>{
+   failed=true;layer.classList.remove('is-video-ready');scene.dataset.flowerState='fallback';
+   // A transparent still remains available if a codec, network or autoplay restriction prevents motion.
+  });
+  return preparing;
+ }
+ function onEnded(){finished=true;scene.dataset.flowerState='complete';}
+ function onError(){failed=true;layer.classList.remove('is-video-ready');scene.dataset.flowerState='fallback';}
+ function observe(){
+  if(destroyed)return;
+  observer=new IntersectionObserver(entries=>{
+   inView=entries[0].isIntersecting&&entries[0].intersectionRatio>=.18;syncPlayback();
+  },{threshold:[0,.18]});
+  observer.observe(scene);
+ }
+ function onReducedChange(){prepare().then(syncPlayback);}
+ function teardown(event){
+  video.pause();
+  if(event.persisted)return;
+  destroyed=true;observer?.disconnect();
+  if(objectURL)URL.revokeObjectURL(objectURL);
+  reduced.removeEventListener('change',onReducedChange);
+  document.removeEventListener('visibilitychange',syncPlayback);
+  scene.removeEventListener('pointerdown',syncPlayback);
+  video.removeEventListener('ended',onEnded);video.removeEventListener('error',onError);
+  window.removeEventListener('bloom:page-ready',observe);window.removeEventListener('pageshow',syncPlayback);window.removeEventListener('pagehide',teardown);
+ }
+ video.addEventListener('ended',onEnded);video.addEventListener('error',onError);
+ reduced.addEventListener('change',onReducedChange);
+ document.addEventListener('visibilitychange',syncPlayback);
+ scene.addEventListener('pointerdown',syncPlayback,{passive:true});
+ window.addEventListener('pageshow',syncPlayback);window.addEventListener('pagehide',teardown);
+ window.BloomReady?.add('glass-flower',prepare());
+ if(!window.BloomReady)prepare();
+ if(document.documentElement.classList.contains('page-loading'))window.addEventListener('bloom:page-ready',observe,{once:true});else observe();
 })();
 
 ;

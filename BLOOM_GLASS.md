@@ -22,3 +22,9 @@ A visibility observer triggers the droplet expansion once. Its surface expands i
 Automated behaviour checks passed: single RAF, settling, no scroll listener, once-only entrance, stationary base, differing layer depths, ignored touch input, reduced-motion fallback, visibility pause and teardown. Source comparison confirms the original floral section is unchanged.
 
 Manual checks: desktop pointer depth and idle stop; complete card entrance without replay; responsive mobile layout; accessible working CTA; no exposed artboard edges at pointer extremes.
+
+## Animated cherry branch
+
+The upper-left branch alone now uses the supplied `Untitled design.mp4`. Its solid near-white background was keyed out while preserving the pale petals. `flower-branch-alpha.webm` carries VP9 alpha for Chromium/Firefox; `flower-branch-alpha.mov` carries HEVC alpha for Safari/WebKit. Neither export contains audio. `flower-branch-poster.webp` is the transparent reduced-motion/error fallback. The original glass flower, backdrop, bubbles and waves remain unchanged.
+
+`js/bloom-flower-video.js` selects one compatible format, buffers it through the existing startup gate, plays once when the scene becomes visible, pauses offscreen/in hidden tabs, and retains the final bloom. The branch wrapper keeps its existing mouse depth transform and corner anchor.
