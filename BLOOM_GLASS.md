@@ -32,3 +32,9 @@ The upper-left branch alone now uses the supplied `Untitled design.mp4`. Its sol
 ## Scene entrance and bloom timing
 
 A stationary full-screen section now contains `.wb-glass-stage`. When 22% of the section enters the viewport, the stage blends from a softly rounded, slightly smaller panel into its full-screen shape over 950 ms. It runs once per page visit. On stage completion the card entrance is released and a scoped `bloom:glass-scene-ready` event allows the branch video to start. The video uses playbackRate/defaultPlaybackRate 2, so its six-second bloom takes about three seconds. Reduced-motion and keyboard focus skip the scene entrance. Mouse depth remains independent of scrolling.
+
+## When to Start card
+
+The editable `glassBloomContent` now covers the start of postpartum physiotherapy: a short introduction, three bold lead-ins with concise supporting text, and a consultation CTA with postpartum recovery selected. The glass surface uses a lighter translucent fill and 18 px backdrop blur. No universal start date or exercise prescription is presented.
+
+Copy references: [NHS: exercise after birth](https://www.nhs.uk/baby/support-and-services/keeping-fit-and-healthy-with-a-baby/) and [NHS My Joint Health Hub: return to exercise and activity after birth](https://myjointhealthhub.bnssg.nhs.uk/pelvic-health-physiotherapy-service/pregnancy-and-after-childbirth/return-to-exercise-and-activity-after-birth/). These support individual recovery, gentle activity when comfortable, assessment before higher-impact exercise, and asking for support with leakage, heaviness or persistent discomfort.
