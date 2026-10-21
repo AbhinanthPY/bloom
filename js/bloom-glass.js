@@ -27,6 +27,7 @@
    const [x,y,tilt]=depths[index];
    layer.style.transform=`translate3d(${(current.x*x).toFixed(3)}px,${(current.y*y).toFixed(3)}px,0) rotateX(${(-current.y*tilt).toFixed(3)}deg) rotateY(${(current.x*tilt).toFixed(3)}deg)`;
   });
+  scene.dispatchEvent(new Event('bloom:glass-depth'));
  }
  function update(now){
   raf=0;

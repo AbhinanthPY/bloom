@@ -38,3 +38,9 @@ A stationary full-screen section now contains `.wb-glass-stage`. When 22% of the
 The editable `glassBloomContent` now covers the start of postpartum physiotherapy: a short introduction, three bold lead-ins with concise supporting text, and a consultation CTA with postpartum recovery selected. The glass surface uses a lighter translucent fill and 18 px backdrop blur. No universal start date or exercise prescription is presented.
 
 Copy references: [NHS: exercise after birth](https://www.nhs.uk/baby/support-and-services/keeping-fit-and-healthy-with-a-baby/) and [NHS My Joint Health Hub: return to exercise and activity after birth](https://myjointhealthhub.bnssg.nhs.uk/pelvic-health-physiotherapy-service/pregnancy-and-after-childbirth/return-to-exercise-and-activity-after-birth/). These support individual recovery, gentle activity when comfortable, assessment before higher-impact exercise, and asking for support with leakage, heaviness or persistent discomfort.
+
+## Refractive liquid-glass optics
+
+The card now renders a live refractive lens with `js/bloom-liquid-glass.js`. It reuses the already-loaded scene images and alpha video, composites the region beneath the card, and samples it through a WebGL shader with convex edge displacement, broad static water-like bending, restrained dispersion and a thin rim highlight. The text stays on a separate sharp DOM layer. The previous pastel fill and strong frost are replaced by a nearly clear surface.
+
+Rendering is event driven: resize, settled entrance geometry, mouse depth updates and decoded video frames. Pixel ratio is capped at 1.25; there is no idle loop. Offscreen/hidden views stop rendering. Local `file://` media can taint a sampled canvas, so Chromium uses a native SVG backdrop displacement filter in that mode. GPU/codec restrictions fall back to clear CSS glass. The published HTTPS site uses the live shader when WebGL is available.
