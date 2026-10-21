@@ -1,5 +1,13 @@
 /* Full-screen composition: preserve each asset's aspect ratio and anchor its artwork to the reference corner. */
-.wb-glass-scene{position:relative;isolation:isolate;overflow:hidden;width:100%;max-width:none;height:100svh;margin:0;border:0;border-radius:0;background:#e1d9f3;box-shadow:none;scroll-margin-top:0}
+.wb-glass-scene{position:relative;isolation:isolate;overflow:hidden;width:100%;max-width:none;height:100svh;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;scroll-margin-top:0;--wb-entry-radius:72px;--wb-entry-lift:56px}
+/* One visibility-triggered entrance; the stationary outer section preserves page geometry. */
+.wb-glass-stage{position:absolute;inset:0;overflow:hidden;isolation:isolate;background:#e1d9f3;transform-origin:50% 55%;border-radius:0}
+.wb-glass-scene[data-scene-entrance="pending"] .wb-glass-stage{opacity:.15;transform:translate3d(0,var(--wb-entry-lift),0) scale(.91);border-radius:var(--wb-entry-radius)}
+.wb-glass-scene[data-scene-entrance="entering"] .wb-glass-stage{animation:wb-glass-scene-in 950ms cubic-bezier(.2,.75,.25,1) both;will-change:transform,opacity,border-radius}
+@keyframes wb-glass-scene-in{
+ from{opacity:.15;transform:translate3d(0,var(--wb-entry-lift),0) scale(.91);border-radius:var(--wb-entry-radius)}
+ to{opacity:1;transform:translate3d(0,0,0) scale(1);border-radius:0}
+}
 .wb-glass-artboard{position:absolute;inset:0;perspective:1400px;pointer-events:none;user-select:none}
 .wb-glass-layer{position:absolute;display:block;max-width:none;pointer-events:none;transform-origin:center;backface-visibility:hidden}
 /* Only the soft backdrop covers the viewport. Transparent foreground canvases stay uncropped. */
@@ -40,7 +48,7 @@
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.wb-glass-surface{background:linear-gradient(135deg,#fff9ffed,#edf5ffed)}}
 @media(min-width:1400px){.wb-glass-card{left:38%;width:510px}.wb-glass-content{padding:50px 48px 44px}}
 @media(max-width:809px){
- .wb-glass-scene{width:100%;height:100svh;margin:0;border-radius:0}
+ .wb-glass-scene{width:100%;height:100svh;margin:0;border-radius:0;--wb-entry-radius:38px;--wb-entry-lift:36px}
  .wb-glass-layer-3{left:-40%;width:180%;bottom:-24px}
  .wb-glass-layer-4{width:135%;right:-46px;bottom:-16px}
  .wb-glass-layer-5{width:140%;left:-56px;top:-20px}
@@ -52,6 +60,7 @@
 }
 @media(max-width:400px){.wb-glass-content{padding:34px 24px 28px}.wb-glass-card h2{font-size:48px}.wb-glass-cta{font-size:13px;gap:20px}.wb-glass-description{margin-top:20px;margin-bottom:24px}}
 @media(prefers-reduced-motion:reduce){
+ .wb-glass-stage{animation:none!important;transform:none!important;opacity:1!important;border-radius:0!important}
  .wb-glass-layer{transform:none!important}
  .wb-glass-scene .wb-glass-surface{animation:none!important;transform:none!important;border-radius:34px!important;opacity:1!important}
  .wb-glass-scene .wb-glass-content{animation:none!important;transform:none!important;opacity:1!important;pointer-events:auto!important}

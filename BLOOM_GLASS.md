@@ -28,3 +28,7 @@ Manual checks: desktop pointer depth and idle stop; complete card entrance witho
 The upper-left branch alone now uses the supplied `Untitled design.mp4`. Its solid near-white background was keyed out while preserving the pale petals. `flower-branch-alpha.webm` carries VP9 alpha for Chromium/Firefox; `flower-branch-alpha.mov` carries HEVC alpha for Safari/WebKit. Neither export contains audio. `flower-branch-poster.webp` is the transparent reduced-motion/error fallback. The original glass flower, backdrop, bubbles and waves remain unchanged.
 
 `js/bloom-flower-video.js` selects one compatible format, buffers it through the existing startup gate, plays once when the scene becomes visible, pauses offscreen/in hidden tabs, and retains the final bloom. The branch wrapper keeps its existing mouse depth transform and corner anchor.
+
+## Scene entrance and bloom timing
+
+A stationary full-screen section now contains `.wb-glass-stage`. When 22% of the section enters the viewport, the stage blends from a softly rounded, slightly smaller panel into its full-screen shape over 950 ms. It runs once per page visit. On stage completion the card entrance is released and a scoped `bloom:glass-scene-ready` event allows the branch video to start. The video uses playbackRate/defaultPlaybackRate 2, so its six-second bloom takes about three seconds. Reduced-motion and keyboard focus skip the scene entrance. Mouse depth remains independent of scrolling.

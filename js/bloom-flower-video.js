@@ -9,6 +9,8 @@
  let inView=false,ready=false,finished=false,failed=false,objectURL=null,preparing=null,observer=null,destroyed=false;
  video.muted=true;
  video.playsInline=true;
+ video.defaultPlaybackRate=2;
+ video.playbackRate=2;
  scene.dataset.flowerState='preparing';
  // WebKit uses HEVC alpha. Chromium/Firefox use VP9 alpha, avoiding opaque HEVC decoding.
  const appleWebKit=(!/Chrome|Chromium|Edg\//.test(navigator.userAgent)||/iP(?:hone|ad|od)/.test(navigator.userAgent))&&!!video.canPlayType('video/mp4; codecs="hvc1"');
@@ -18,7 +20,8 @@
   if(!ready||failed||destroyed)return;
   if(reduced.matches){video.pause();layer.classList.remove('is-video-ready');scene.dataset.flowerState='static';return;}
   layer.classList.add('is-video-ready');
-  if(inView&&!document.hidden&&!finished){
+  if(inView&&!document.hidden&&!finished&&scene.dataset.sceneEntrance==='revealed'){
+   video.playbackRate=2;
    video.play().then(()=>{scene.dataset.flowerState='playing';}).catch(()=>{scene.dataset.flowerState='paused';});
   }else{
    video.pause();scene.dataset.flowerState=finished?'complete':'paused';
@@ -77,6 +80,7 @@
   reduced.removeEventListener('change',onReducedChange);
   document.removeEventListener('visibilitychange',syncPlayback);
   scene.removeEventListener('pointerdown',syncPlayback);
+  scene.removeEventListener('bloom:glass-scene-ready',syncPlayback);
   video.removeEventListener('ended',onEnded);video.removeEventListener('error',onError);
   window.removeEventListener('bloom:page-ready',observe);window.removeEventListener('pageshow',syncPlayback);window.removeEventListener('pagehide',teardown);
  }
@@ -84,6 +88,7 @@
  reduced.addEventListener('change',onReducedChange);
  document.addEventListener('visibilitychange',syncPlayback);
  scene.addEventListener('pointerdown',syncPlayback,{passive:true});
+ scene.addEventListener('bloom:glass-scene-ready',syncPlayback);
  window.addEventListener('pageshow',syncPlayback);window.addEventListener('pagehide',teardown);
  window.BloomReady?.add('glass-flower',prepare());
  if(!window.BloomReady)prepare();

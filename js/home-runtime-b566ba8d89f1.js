@@ -146,7 +146,7 @@ const glassBloomContent = {
 };
 const glassBloomSection = () => {
  const layers=['01-background','02-atmosphere-bubbles','03-soft-sakura-bokeh','04-glass-waves','05-glass-flower-right','06-cherry-branch-top-left'];
- return `<section class="wb-glass-scene" id="gentle-bloom" aria-labelledby="gentle-bloom-title" data-glass-scene><div class="wb-glass-artboard" aria-hidden="true">${layers.map((name,index)=>index===5?`<div class="wb-glass-layer wb-glass-layer-5 wb-flower-motion"><img class="wb-flower-poster" src="assets/bloom-glass/flower-branch-poster.webp" alt="" width="1280" height="720" loading="eager" decoding="async" fetchpriority="low"><video class="wb-flower-video" muted playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" data-webm-src="assets/bloom-glass/flower-branch-alpha.webm" data-hevc-src="assets/bloom-glass/flower-branch-alpha.mov"></video></div>`:`<img class="wb-glass-layer wb-glass-layer-${index}" src="assets/bloom-glass/${name}.webp" alt="" width="1916" height="821" loading="eager" decoding="async" fetchpriority="low" draggable="false">`).join('')}</div><div class="wb-glass-card"><div class="wb-glass-surface" aria-hidden="true"></div><div class="wb-glass-content"><p class="wb-glass-eyebrow">${glassBloomContent.eyebrow}</p><h2 id="gentle-bloom-title">${glassBloomContent.heading}</h2><p class="wb-glass-description">${glassBloomContent.description}</p><a class="wb-glass-cta" href="${glassBloomContent.href}"><span>${glassBloomContent.cta}</span><span class="wb-glass-arrow" aria-hidden="true">↗</span></a></div></div></section>`;
+ return `<section class="wb-glass-scene" id="gentle-bloom" aria-labelledby="gentle-bloom-title" data-glass-scene><div class="wb-glass-stage"><div class="wb-glass-artboard" aria-hidden="true">${layers.map((name,index)=>index===5?`<div class="wb-glass-layer wb-glass-layer-5 wb-flower-motion"><img class="wb-flower-poster" src="assets/bloom-glass/flower-branch-poster.webp" alt="" width="1280" height="720" loading="eager" decoding="async" fetchpriority="low"><video class="wb-flower-video" muted playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" data-webm-src="assets/bloom-glass/flower-branch-alpha.webm" data-hevc-src="assets/bloom-glass/flower-branch-alpha.mov"></video></div>`:`<img class="wb-glass-layer wb-glass-layer-${index}" src="assets/bloom-glass/${name}.webp" alt="" width="1916" height="821" loading="eager" decoding="async" fetchpriority="low" draggable="false">`).join('')}</div><div class="wb-glass-card"><div class="wb-glass-surface" aria-hidden="true"></div><div class="wb-glass-content"><p class="wb-glass-eyebrow">${glassBloomContent.eyebrow}</p><h2 id="gentle-bloom-title">${glassBloomContent.heading}</h2><p class="wb-glass-description">${glassBloomContent.description}</p><a class="wb-glass-cta" href="${glassBloomContent.href}"><span>${glassBloomContent.cta}</span><span class="wb-glass-arrow" aria-hidden="true">↗</span></a></div></div></div></section>`;
 };
 const priceData = [
  [
@@ -872,14 +872,16 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
  if(!scene)return;
  const layers=[...scene.querySelectorAll('.wb-glass-layer')];
  const surface=scene.querySelector('.wb-glass-surface');
+ const stage=scene.querySelector('.wb-glass-stage');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
  const fine=matchMedia('(hover: hover) and (pointer: fine)');
  // Small pointer offsets sit above the responsive corner anchors defined in CSS.
  const depths=[[0,0,0],[-6,-3,.06],[10,5,.12],[-16,5,.2],[25,-10,.32],[-32,12,.42]];
  const clamp=n=>Math.max(-1,Math.min(1,n));
  let current={x:0,y:0},target={x:0,y:0},raf=0,last=0;
- let visible=false,entered=false,enabled=false,observer=null,destroyed=false;
+ let visible=false,entered=false,enabled=false,observer=null,destroyed=false,sceneTimer=0;
  scene.dataset.glassEntrance=reduced.matches?'revealed':'pending';
+ scene.dataset.sceneEntrance=reduced.matches?'revealed':'pending';
 
  function stop(){
   cancelAnimationFrame(raf);raf=0;last=0;
@@ -908,7 +910,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
   else raf=requestAnimationFrame(update);
  }
  function pointerMove(event){
-  if(event.pointerType!=='mouse'||!enabled||!visible||document.hidden)return;
+  if(event.pointerType!=='mouse'||!enabled||!visible||document.hidden||scene.dataset.sceneEntrance!=='revealed')return;
   const rect=scene.getBoundingClientRect();
   target.x=clamp((event.clientX-rect.left)/rect.width*2-1);
   target.y=clamp((event.clientY-rect.top)/rect.height*2-1);
@@ -921,6 +923,24 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
   entered=true;
   scene.dataset.glassEntrance=immediate||reduced.matches?'revealed':'entering';
  }
+ // The scene opens first. Its completion releases the card and the flower video.
+ function completeScene(immediate=false){
+  clearTimeout(sceneTimer);sceneTimer=0;
+  if(scene.dataset.sceneEntrance==='revealed'){if(immediate)reveal(true);return;}
+  scene.dataset.sceneEntrance='revealed';
+  reveal(immediate);
+  scene.dispatchEvent(new Event('bloom:glass-scene-ready'));
+ }
+ function revealScene(immediate=false){
+  if(immediate||reduced.matches){completeScene(true);return;}
+  if(scene.dataset.sceneEntrance!=='pending')return;
+  scene.dataset.sceneEntrance='entering';
+  // Fallback for browsers/extensions that suppress CSS animationend.
+  sceneTimer=setTimeout(()=>completeScene(),1150);
+ }
+ function finishSceneEntrance(event){
+  if(event.target===stage&&event.animationName==='wb-glass-scene-in')completeScene();
+ }
  function finishEntrance(event){
   if(event.target===surface&&event.animationName==='wb-glass-grow')scene.dataset.glassEntrance='revealed';
  }
@@ -928,7 +948,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
   enabled=fine.matches&&!reduced.matches;
   stop();
   if(!enabled){current={x:0,y:0};target={...current};layers.forEach(layer=>layer.style.removeProperty('transform'));}
-  if(reduced.matches)reveal(true);
+  if(reduced.matches){completeScene(true);reveal(true);}
  }
  function observe(){
   if(destroyed)return;
@@ -936,20 +956,21 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
    const entry=entries[0];
    visible=entry.isIntersecting;
    if(!visible)stop();
-   if(entry.isIntersecting&&entry.intersectionRatio>=.22)reveal();
+   if(entry.isIntersecting&&entry.intersectionRatio>=.22)revealScene();
   },{threshold:[0,.22]});
   observer.observe(scene);
  }
  function onVisibility(){if(document.hidden)stop();}
- function onFocus(){reveal(true);scene.dataset.glassEntrance='revealed';}
+ function onFocus(){completeScene(true);reveal(true);scene.dataset.glassEntrance='revealed';}
  function teardown(event){
   stop();
   if(event.persisted)return; // Preserve a completed entrance in the back/forward cache.
-  destroyed=true;
+  destroyed=true;clearTimeout(sceneTimer);
   observer?.disconnect();
   scene.removeEventListener('pointermove',pointerMove);
   scene.removeEventListener('focusin',onFocus);
   surface.removeEventListener('animationend',finishEntrance);
+  stage.removeEventListener('animationend',finishSceneEntrance);
   reduced.removeEventListener('change',configure);
   fine.removeEventListener('change',configure);
   document.removeEventListener('visibilitychange',onVisibility);
@@ -960,6 +981,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
  // Pointer leave intentionally has no reset animation.
  scene.addEventListener('focusin',onFocus);
  surface.addEventListener('animationend',finishEntrance);
+ stage.addEventListener('animationend',finishSceneEntrance);
  reduced.addEventListener('change',configure);
  fine.addEventListener('change',configure);
  document.addEventListener('visibilitychange',onVisibility);
@@ -984,6 +1006,8 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
  let inView=false,ready=false,finished=false,failed=false,objectURL=null,preparing=null,observer=null,destroyed=false;
  video.muted=true;
  video.playsInline=true;
+ video.defaultPlaybackRate=2;
+ video.playbackRate=2;
  scene.dataset.flowerState='preparing';
  // WebKit uses HEVC alpha. Chromium/Firefox use VP9 alpha, avoiding opaque HEVC decoding.
  const appleWebKit=(!/Chrome|Chromium|Edg\//.test(navigator.userAgent)||/iP(?:hone|ad|od)/.test(navigator.userAgent))&&!!video.canPlayType('video/mp4; codecs="hvc1"');
@@ -993,7 +1017,8 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
   if(!ready||failed||destroyed)return;
   if(reduced.matches){video.pause();layer.classList.remove('is-video-ready');scene.dataset.flowerState='static';return;}
   layer.classList.add('is-video-ready');
-  if(inView&&!document.hidden&&!finished){
+  if(inView&&!document.hidden&&!finished&&scene.dataset.sceneEntrance==='revealed'){
+   video.playbackRate=2;
    video.play().then(()=>{scene.dataset.flowerState='playing';}).catch(()=>{scene.dataset.flowerState='paused';});
   }else{
    video.pause();scene.dataset.flowerState=finished?'complete':'paused';
@@ -1052,6 +1077,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
   reduced.removeEventListener('change',onReducedChange);
   document.removeEventListener('visibilitychange',syncPlayback);
   scene.removeEventListener('pointerdown',syncPlayback);
+  scene.removeEventListener('bloom:glass-scene-ready',syncPlayback);
   video.removeEventListener('ended',onEnded);video.removeEventListener('error',onError);
   window.removeEventListener('bloom:page-ready',observe);window.removeEventListener('pageshow',syncPlayback);window.removeEventListener('pagehide',teardown);
  }
@@ -1059,6 +1085,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
  reduced.addEventListener('change',onReducedChange);
  document.addEventListener('visibilitychange',syncPlayback);
  scene.addEventListener('pointerdown',syncPlayback,{passive:true});
+ scene.addEventListener('bloom:glass-scene-ready',syncPlayback);
  window.addEventListener('pageshow',syncPlayback);window.addEventListener('pagehide',teardown);
  window.BloomReady?.add('glass-flower',prepare());
  if(!window.BloomReady)prepare();
