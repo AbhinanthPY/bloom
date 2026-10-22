@@ -5,7 +5,7 @@
 .bloom-scroll-active{height:350svh;min-height:0}
 .bloom-scroll-active .bloom-stage{position:sticky;top:0;height:100svh;min-height:0}
 .bloom-fallback,.bloom-motion-media,.bloom-atmosphere{position:absolute;inset:0;pointer-events:none}
-.bloom-fallback{inset:-4%;z-index:0;background:url('../assets/bloom-flower-start.webp') center center/cover no-repeat}
+.bloom-fallback{inset:-4%;z-index:0;background:url('../assets/bloom-garden-start.webp') center center/cover no-repeat}
 .bloom-motion-media{z-index:1}
 .bloom-video,.bloom-final-frame{position:absolute;inset:-4%;display:block;width:108%;height:108%;max-width:none;object-fit:cover;object-position:center}
 .bloom-video{opacity:0;transition:opacity .15s ease}

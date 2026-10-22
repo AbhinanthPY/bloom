@@ -1,16 +1,16 @@
-# Bloom flower scroll scene
+# Bloom cherry-blossom garden scroll scene
 
-The middle `#bloom` scene now uses the client-supplied flower film. The original “YOUR WELLBEING FIRST”, “EXTRA ORDINARY CARE” text and white Wellcare Bloom logo remain above the background, with their existing entrance and logo reveal phases.
+The middle `#bloom` scene uses the client-supplied cherry-blossom garden film. “YOUR WELLBEING FIRST”, the live “CARE THAT BLOOMS” typography and white Wellcare Bloom logo remain above the background, with their existing entrance and logo reveal phases.
 
 ## Files
 
 - `js/bloom-scroll-video.js` (part of the generated homepage bundle): native scroll progress, paused video seeking, text transitions and final-frame parallax. Loaded as a classic deferred script, so it also works when opening the local HTML directly.
 - `css/bloom-parallax.css`: sticky stage, responsive artwork framing, text and reduced-motion styles.
-- `assets/bloom-flower-ready.mp4`: 1280 × 720 H.264, 24 fps, silent, keyframe every 12 frames, fast-start metadata.
-- `assets/bloom-flower-ready-mobile.mp4`: 960 × 540 version selected before loading on smaller screens.
-- `assets/bloom-flower-start.webp` and `assets/bloom-flower-end.webp`: exact first/last source frames as optimized stills.
+- `assets/bloom-garden-scroll.mp4`: 1280 × 720 H.264, 24 fps, silent, keyframe every 12 frames, fast-start metadata.
+- `assets/bloom-garden-scroll-mobile.mp4`: 960 × 540 version selected before loading on smaller screens.
+- `assets/bloom-garden-start.webp` and `assets/bloom-garden-end.webp`: exact first/last source frames as optimized stills.
 
-The source film is 166 frames (about 6.92 seconds). It is supplied by the client as `Flower_bud_blooming_animation_20261020163119.mp4`. No generated replacement artwork is used.
+The new source film is eight seconds at 30 fps, supplied by the client as `Animate_cherry_blossom_garden_image_20261022224835 (online-video-cutter.com).mp4`. The web versions use 24 fps (192 frames), with a last-frame time of 7.9583 seconds. No generated replacement artwork is used.
 
 ## Sequence
 
