@@ -351,27 +351,27 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
   .hero-copy>p{font-size:16px;max-width:360px;margin-bottom:26px}
 }
 
-/* Requested reading sizes: 2× for section copy; 1.5× for supporting cards.
+/* Revised sizes: logo and selected reading copy are 1.5× their original sizes.
    These rules belong to the homepage bundle, keeping inner-page type unchanged. */
-.site-header{height:156px}
-.site-header.scrolled{height:124px}
-.site-header .brand-logo img{height:104px;max-width:440px}
-.site-header.scrolled .brand-logo img{height:84px}
-.manifesto cite{font-size:30px;line-height:1.4}
-#our-services .services-intro .section-heading p{font-size:30px;max-width:900px}
+.site-header{height:136px}
+.site-header.scrolled{height:104px}
+.site-header .brand-logo img{height:78px;max-width:330px}
+.site-header.scrolled .brand-logo img{height:63px}
+.manifesto cite{font-size:22.5px;line-height:1.4}
+#our-services .services-intro .section-heading p{font-size:22.5px;max-width:900px}
 .journey>.section-heading>p,
 #our-approach>.section-heading>p,
 #pricing>.section-heading>p,
-#home-journal>.section-heading>p{font-size:32px;max-width:960px}
+#home-journal>.section-heading>p{font-size:24px;max-width:960px}
 #pricing>.section-end>p,
-#home-journal>.section-end>p{font-size:28px;max-width:900px}
+#home-journal>.section-end>p{font-size:21px;max-width:900px}
 
 /* Give the enlarged service descriptions real space rather than clipping them. */
-.service-slot{width:440px}
+.service-slot{width:380px}
 .service-track{top:56%}
-.service-track .service-card{height:auto;min-height:610px;padding:32px 28px 26px}
+.service-track .service-card{height:auto;min-height:540px;padding:32px 28px 26px}
 .service-track .service-card .service-icon{margin-bottom:24px;flex-shrink:0}
-.service-track .service-card p{font-size:26px;max-width:none}
+.service-track .service-card p{font-size:19.5px;max-width:none}
 .service-track .service-card small{margin-top:auto;flex-shrink:0}
 #our-approach .approach-card>p{font-size:21px;max-width:100%}
 #our-approach .approach-card{min-width:0}
@@ -381,22 +381,22 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
 #footer .newsletter .privacy-note{font-size:21px;max-width:740px}
 
 @media(max-width:809px){
- .site-header{height:120px}
- .site-header.scrolled{height:112px}
- .site-header .brand-logo img{height:80px;max-width:340px}
- .site-header.scrolled .brand-logo img{height:84px}
- .service-slot{width:440px;max-width:85vw}
- .service-track{top:auto;padding-inline:max(20px,calc((100vw - min(440px,85vw))/2))}
- .service-track .service-card{min-height:610px;max-width:none}
+ .site-header{height:100px}
+ .site-header.scrolled{height:96px}
+ .site-header .brand-logo img{height:60px;max-width:255px}
+ .site-header.scrolled .brand-logo img{height:63px}
+ .service-slot{width:380px;max-width:85vw}
+ .service-track{top:auto;padding-inline:max(20px,calc((100vw - min(380px,85vw))/2))}
+ .service-track .service-card{min-height:540px;max-width:none}
  #our-approach .approach-card>p{margin-top:32px}
  #our-approach .approach-careful>p{margin-bottom:220px}
  #our-approach .approach-results>p{margin-bottom:200px}
  #pricing .price-card{min-height:390px}
 }
 @media(max-width:520px){
- .manifesto cite{font-size:26px}
- #our-services .services-intro .section-heading p{font-size:28px}
- .service-track .service-card{min-height:650px;padding:30px 22px 24px}
+ .manifesto cite{font-size:19.5px}
+ #our-services .services-intro .section-heading p{font-size:21px}
+ .service-track .service-card{min-height:580px;padding:30px 22px 24px}
  #our-approach .approach-card>p{max-width:100%}
  #our-approach .approach-careful>p{margin-bottom:170px}
  #pricing .price-card{min-height:320px}
@@ -407,13 +407,13 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
 @media(min-width:810px) and (max-height:740px){
  .services-runway{height:auto}
  .services-sticky{position:relative;height:auto;overflow:hidden;padding:28px 0 70px}
- .service-track{position:relative;left:auto;top:auto;width:100%;gap:32px;padding:24px max(32px,calc((100vw - 440px)/2));overflow-x:auto;transform:none!important;scroll-snap-type:x mandatory}
+ .service-track{position:relative;left:auto;top:auto;width:100%;gap:32px;padding:24px max(32px,calc((100vw - 380px)/2));overflow-x:auto;transform:none!important;scroll-snap-type:x mandatory}
  .service-slot{scroll-snap-align:center}
 }
 @media(prefers-reduced-motion:reduce) and (min-width:810px){
  .service-track{top:auto;grid-template-columns:repeat(2,minmax(0,1fr))}
  .service-slot{width:100%}
- .service-track .service-card{min-height:610px;height:auto}
+ .service-track .service-card{min-height:540px;height:auto}
 }
 
 
