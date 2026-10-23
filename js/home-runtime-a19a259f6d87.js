@@ -47,7 +47,8 @@
    add('fonts',document.fonts?Promise.all([
     document.fonts.load('400 16px Instrument'),
     document.fonts.load('400 48px BloomDisplay', 'You are our first priority'),
-    document.fonts.load('italic 400 48px BloomDisplay', 'f as you bloom.'),
+    document.fonts.load('italic 400 48px BloomDisplay', 'as you bloom.'),
+    document.fonts.load('400 48px BloomFlourish', 'f'),
     document.fonts.load('400 16px Inter'),
     document.fonts.load('600 16px Inter')
    ]).then(()=>document.fonts.ready):Promise.resolve());

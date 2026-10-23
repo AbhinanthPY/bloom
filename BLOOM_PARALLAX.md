@@ -2,7 +2,7 @@
 
 The middle `#bloom` scene uses the client-supplied cherry-blossom garden film. The live “You are / our first priority / as you bloom.” typography and white Wellcare Bloom logo remain above the background, with their existing entrance and logo reveal phases.
 
-The reference-inspired lettering uses local Bodoni Moda regular and italic subsets (about 13 KB combined), with a real oversized italic `f`. The copy is editable in `bloomExperience()` in `app.js`; there is no flattened text image. The font license is in `assets/bodoni-moda-OFL.txt`.
+The reference-inspired lettering uses local Bodoni Moda regular and italic subsets plus a single Ballet swash `f` (about 15 KB combined). The copy is editable in `bloomExperience()` in `app.js`; there is no flattened text image. The font licenses are in `assets/bodoni-moda-OFL.txt` and `assets/ballet-OFL.txt`.
 
 ## Files
 
