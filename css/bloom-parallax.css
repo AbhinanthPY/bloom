@@ -1,5 +1,6 @@
-/* Scroll-scrubbed flower film with a live, two-line editorial headline. */
-@font-face{font-family:BloomDisplay;src:url('../assets/bloom-display.woff2') format('woff2');font-style:normal;font-weight:400;font-display:block}
+/* Scroll-scrubbed flower film with editable editorial lettering inspired by the supplied reference. */
+@font-face{font-family:BloomDisplay;src:url('../assets/bloom-editorial-regular.ttf') format('truetype');font-style:normal;font-weight:400;font-display:block}
+@font-face{font-family:BloomDisplay;src:url('../assets/bloom-editorial-italic.ttf') format('truetype');font-style:italic;font-weight:400;font-display:block}
 .bloom-experience{position:relative;height:100svh;min-height:620px;margin:40px 0 120px;background:transparent}
 .bloom-stage{position:relative;height:100%;width:100%;overflow:hidden;isolation:isolate;background:#d6b5b5}
 .bloom-scroll-active{height:350svh;min-height:0}
@@ -12,17 +13,22 @@
 .bloom-video-ready .bloom-video{opacity:1}
 .bloom-final-frame{opacity:var(--bloom-final-opacity,0);transform:translate3d(var(--bloom-final-x,0px),var(--bloom-final-y,0px),0) scale(var(--bloom-final-scale,1));will-change:transform}
 .bloom-atmosphere{z-index:3;background:linear-gradient(180deg,#21182738,#21182748 65%,#21182720)}
-.bloom-message{position:absolute;left:50%;top:51%;width:86%;max-width:1440px;transform:translate(-50%,-50%);z-index:4;text-align:center;font-family:BloomDisplay,Didot,'Times New Roman',serif}
-.bloom-kicker{display:flex;align-items:center;gap:clamp(12px,2.2vw,36px);margin:0 0 clamp(20px,2.5vw,42px);color:#990e34;font:400 clamp(10px,2.45vw,38px)/1.2 BloomDisplay,Didot,'Times New Roman',serif;letter-spacing:.18em;text-transform:uppercase}
+/* A single responsive composition: small introduction, rose headline, italic closing.
+   The oversized f is a real glyph, so all lettering stays editable and sharp. */
+.bloom-message{position:absolute;left:50%;top:51%;width:92%;max-width:1440px;transform:translate(-50%,-50%);z-index:4;text-align:center;font-family:BloomDisplay,Didot,'Times New Roman',serif;container-type:inline-size}
+.bloom-kicker{display:block;margin:0 0 1.4cqw;padding-left:11%;text-align:left;color:#594437;font:400 7.7cqw/1.1 BloomDisplay,Didot,'Times New Roman',serif;letter-spacing:-.065em;text-transform:none}
 .bloom-kicker span{white-space:nowrap}
-.bloom-kicker::before,.bloom-kicker::after{content:'';flex:1;min-width:0;height:1px;background:currentColor}
 #bloom-title{display:block;margin:0;font-weight:400}
-.bloom-title-line{display:block;position:relative;white-space:nowrap;font-family:BloomDisplay,Didot,'Times New Roman',serif;font-weight:400;font-style:normal;line-height:.9;text-transform:uppercase;letter-spacing:-.045em;color:#ae153b;text-shadow:none;will-change:transform}
-.bloom-title-care{font-size:min(14.3vw,238px)}
-.bloom-title-blooms{font-size:min(19.9vw,332px);margin-top:.02em;letter-spacing:-.055em}
+.bloom-title-line{display:block;position:relative;white-space:nowrap;font-family:BloomDisplay,Didot,'Times New Roman',serif;font-weight:400;font-style:normal;text-transform:none;letter-spacing:-.055em;color:#bc254d;text-shadow:none;will-change:transform}
+.bloom-title-care{font-size:14.6cqw;line-height:1.08}
+.bloom-priority-word{white-space:nowrap}
+.bloom-flourish-letter{display:inline-block;position:relative;width:.34em}
+.bloom-flourish-letter i{position:absolute;left:-.16em;bottom:-.18em;font-size:2.08em;font-weight:400;font-style:italic;line-height:.9;letter-spacing:0;color:#df3d61;font-feature-settings:'swsh' 1;pointer-events:none}
+.bloom-title-blooms{margin-top:1.5cqw;padding-right:5%;text-align:right;font-size:7.1cqw;line-height:1.2;font-style:italic;letter-spacing:-.045em;color:#594437}
 @supports ((background-clip:text) or (-webkit-background-clip:text)){
- .bloom-title-line{background:linear-gradient(115deg,#8f0b31 4%,#ad1439 50%,#f52e4d 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
- .bloom-title-blooms{background-image:radial-gradient(ellipse at 100% 100%,#ffd77a 0%,#ffad6c 12%,transparent 40%),linear-gradient(170deg,#910c31 2%,#ac163d 36%,#ef3656 72%,#ff6a65 100%)}
+ .bloom-title-care{background:linear-gradient(115deg,#a3103c 4%,#c32c52 55%,#ea4c6a 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+ .bloom-flourish-letter i{background:linear-gradient(160deg,#bd204a,#f05878);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+ .bloom-title-blooms{background:linear-gradient(110deg,#75513c,#594437 70%,#885a46);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
 }
 .bloom-brand{position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);width:min(720px,76vw);z-index:5;pointer-events:none}
 .bloom-brand img{display:block;width:100%;height:auto;opacity:0;filter:brightness(0) invert(1) drop-shadow(0 3px 20px #35222d66)}
@@ -34,10 +40,7 @@
  .bloom-scroll-active{height:260svh;min-height:0}
  .bloom-video,.bloom-final-frame{object-position:32% center}
  .bloom-fallback{background-position:32% center}
- .bloom-message{top:49%;width:90%}
- .bloom-kicker{font-size:2.6vw;gap:3vw;margin-bottom:5vw;letter-spacing:.15em}
- .bloom-title-care{font-size:15vw}
- .bloom-title-blooms{font-size:20.9vw}
+ .bloom-message{top:50%;width:94%}
  .bloom-in-view .sound-control{left:20px}
 }
 @media(prefers-reduced-motion:reduce){
@@ -51,11 +54,8 @@
 .bloom-scroll-static .bloom-brand img{opacity:1}
 .bloom-experience[data-bloom-state="static"] .bloom-title-line{transform:none!important;opacity:1!important}
 .bloom-experience[data-bloom-state="static"] .bloom-kicker{opacity:1!important}
-/* Keep both headline lines below the navigation in short landscape windows. */
+/* Keep the complete lettering below navigation in short landscape windows. */
 @media(max-height:620px){
  .bloom-experience,.bloom-stage{min-height:0}
- .bloom-message{top:58%;width:80%}
- .bloom-kicker{font-size:min(2vw,3svh);margin-bottom:3svh}
- .bloom-title-care{font-size:min(13vw,21svh)}
- .bloom-title-blooms{font-size:min(18vw,29svh)}
+ .bloom-message{top:58%;width:min(80%,165svh)}
 }
