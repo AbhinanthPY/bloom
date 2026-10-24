@@ -1,46 +1,26 @@
-# Gentle Bloom — independent liquid-glass section
+# When to Start — cherry blossom background and liquid-glass card
 
-Added above Personalised Care (`#pricing`), after the existing floral scene and approach content. The new scene is edge to edge and exactly one viewport tall, without an outer border, rounded frame, shadow or side margins. The original `#bloom` video/parallax scene is unchanged.
+The `#gentle-bloom` section sits after the approach content and above Personalised Care (`#pricing`). It fills at least one viewport and grows naturally on small screens to fit the card. The separate `#bloom` garden video scene is unchanged.
 
-## Editable content and assets
+## Background and content
 
-- `app.js`: `glassBloomContent` contains the eyebrow, heading, description, CTA label and destination. `glassBloomSection()` renders the semantic HTML.
-- `css/bloom-glass.css`: scoped composition, glass surface, droplet entrance and responsive/reduced-motion fallbacks.
-- `js/bloom-glass.js`: mouse interaction, entrance observer and cleanup.
-- `assets/bloom-glass/`: the six supplied WebP layers, unmodified, on their shared 1916 × 821 artboard. The opaque background covers the full viewport. Foreground canvases preserve their 1916 × 821 aspect ratio: the reduced cherry branch sits at the upper left, the glass flower at the lower right, and waves along the bottom. This avoids magnifying the transparent artwork to fill a tall viewport. Pointer offsets are applied independently of those corner anchors. Diffuse overlays use reduced opacity.
+- `assets/bloom-glass/cherry-blossom-background.png`: the supplied 1672 × 941 cherry blossom image, copied unchanged. It covers the full stage with centred framing.
+- `app.js`: `glassBloomSection()` renders this single decorative background image. `glassBloomContent` retains the existing When to Start text, three supporting points and consultation link.
+- The previous six-layer composition and transparent branch video are no longer rendered or downloaded by this section. Their source assets remain archived for reuse.
+- `css/bloom-glass.css`: responsive stage layout, clear rounded glass surface, entrance and reduced-motion rules.
 
-The scene uses no external dependencies. The existing homepage startup gate decodes its six images before revealing the page. Rebuild with `python3 scripts/build-home-runtime.py` after editing a source file.
+The image is included in the existing startup image gate. The background stays stationary; with a single flat image, the pointer depth loop stays disabled.
 
-## Interaction
+## Entrance and glass
 
-Only fine mouse input changes layer transforms. The base is stationary; other layers translate up to 6–32 px horizontally and 3–12 px vertically with restrained opposing rotations. One easing loop stops when settled. Pointer leave does not reset the composition. The scene has no scroll listener, automatic pan, idle animation or device tilt. Touch and reduced-motion modes disable the pointer effect. Reduced motion shows the glass card immediately.
+`js/bloom-glass.js` retains the once-only 950 ms rounded scene entrance at 22% visibility, followed by the glass droplet expansion. Keyboard focus and reduced motion reveal the card immediately.
 
-A visibility observer triggers the droplet expansion once. Its surface expands independently of the text. Keyboard focus reveals the card immediately. Page teardown disconnects listeners/observer, and background tabs stop the easing loop.
+`js/bloom-liquid-glass.js` samples the new image beneath the card through its existing WebGL lens, including convex edges, stationary water-like refraction and restrained highlights. It derives the uncovered colour from the stage. Text stays in a separate sharp DOM layer. Rendering happens only for relevant entry, visibility and resize events; there is no idle animation loop.
 
-## Verification
+Local `file://` artwork can taint a sampled canvas, so Chromium uses native SVG backdrop displacement there. GPU restrictions fall back to clear CSS glass. The published HTTPS site uses the live shader when available.
 
-Automated behaviour checks passed: single RAF, settling, no scroll listener, once-only entrance, stationary base, differing layer depths, ignored touch input, reduced-motion fallback, visibility pause and teardown. Source comparison confirms the original floral section is unchanged.
+## Source maintenance
 
-Manual checks: desktop pointer depth and idle stop; complete card entrance without replay; responsive mobile layout; accessible working CTA; no exposed artboard edges at pointer extremes.
+The section remains vanilla HTML/CSS/JavaScript with no added dependencies. Rebuild the generated homepage bundles using `python3 scripts/build-home-runtime.py` after changes.
 
-## Animated cherry branch
-
-The upper-left branch alone now uses the supplied `Untitled design.mp4`. Its solid near-white background was keyed out while preserving the pale petals. `flower-branch-alpha.webm` carries VP9 alpha for Chromium/Firefox; `flower-branch-alpha.mov` carries HEVC alpha for Safari/WebKit. Neither export contains audio. `flower-branch-poster.webp` is the transparent reduced-motion/error fallback. The original glass flower, backdrop, bubbles and waves remain unchanged.
-
-`js/bloom-flower-video.js` selects one compatible format, buffers it through the existing startup gate, plays once when the scene becomes visible, pauses offscreen/in hidden tabs, and retains the final bloom. The branch wrapper keeps its existing mouse depth transform and corner anchor.
-
-## Scene entrance and bloom timing
-
-A stationary full-screen section now contains `.wb-glass-stage`. When 22% of the section enters the viewport, the stage blends from a softly rounded, slightly smaller panel into its full-screen shape over 950 ms. It runs once per page visit. On stage completion the card entrance is released and a scoped `bloom:glass-scene-ready` event allows the branch video to start. The video uses playbackRate/defaultPlaybackRate 2, so its six-second bloom takes about three seconds. Reduced-motion and keyboard focus skip the scene entrance. Mouse depth remains independent of scrolling.
-
-## When to Start card
-
-The editable `glassBloomContent` now covers the start of postpartum physiotherapy: a short introduction, three bold lead-ins with concise supporting text, and a consultation CTA with postpartum recovery selected. The glass surface uses a lighter translucent fill and 18 px backdrop blur. No universal start date or exercise prescription is presented.
-
-Copy references: [NHS: exercise after birth](https://www.nhs.uk/baby/support-and-services/keeping-fit-and-healthy-with-a-baby/) and [NHS My Joint Health Hub: return to exercise and activity after birth](https://myjointhealthhub.bnssg.nhs.uk/pelvic-health-physiotherapy-service/pregnancy-and-after-childbirth/return-to-exercise-and-activity-after-birth/). These support individual recovery, gentle activity when comfortable, assessment before higher-impact exercise, and asking for support with leakage, heaviness or persistent discomfort.
-
-## Refractive liquid-glass optics
-
-The card now renders a live refractive lens with `js/bloom-liquid-glass.js`. It reuses the already-loaded scene images and alpha video, composites the region beneath the card, and samples it through a WebGL shader with convex edge displacement, broad static water-like bending, restrained dispersion and a thin rim highlight. The text stays on a separate sharp DOM layer. The previous pastel fill and strong frost are replaced by a nearly clear surface.
-
-Rendering is event driven: resize, settled entrance geometry, mouse depth updates and decoded video frames. Pixel ratio is capped at 1.25; there is no idle loop. Offscreen/hidden views stop rendering. Local `file://` media can taint a sampled canvas, so Chromium uses a native SVG backdrop displacement filter in that mode. GPU/codec restrictions fall back to clear CSS glass. The published HTTPS site uses the live shader when WebGL is available.
+The postpartum copy remains unchanged. Existing references: [NHS: exercise after birth](https://www.nhs.uk/baby/support-and-services/keeping-fit-and-healthy-with-a-baby/) and [NHS My Joint Health Hub: return to exercise after birth](https://myjointhealthhub.bnssg.nhs.uk/pelvic-health-physiotherapy-service/pregnancy-and-after-childbirth/return-to-exercise-and-activity-after-birth/).

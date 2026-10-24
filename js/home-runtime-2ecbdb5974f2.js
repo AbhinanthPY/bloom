@@ -152,8 +152,8 @@ const glassBloomContent = {
  href: 'book-a-consultation.html?service=0'
 };
 const glassBloomSection = () => {
- const layers=['01-background','02-atmosphere-bubbles','03-soft-sakura-bokeh','04-glass-waves','05-glass-flower-right','06-cherry-branch-top-left'];
- return `<section class="wb-glass-scene" id="gentle-bloom" aria-labelledby="gentle-bloom-title" data-glass-scene><div class="wb-glass-stage"><div class="wb-glass-artboard" aria-hidden="true">${layers.map((name,index)=>index===5?`<div class="wb-glass-layer wb-glass-layer-5 wb-flower-motion"><img class="wb-flower-poster" src="assets/bloom-glass/flower-branch-poster.webp" alt="" width="1280" height="720" loading="eager" decoding="async" fetchpriority="low"><video class="wb-flower-video" muted playsinline preload="none" disablepictureinpicture disableremoteplayback tabindex="-1" data-webm-src="assets/bloom-glass/flower-branch-alpha.webm" data-hevc-src="assets/bloom-glass/flower-branch-alpha.mov"></video></div>`:`<img class="wb-glass-layer wb-glass-layer-${index}" src="assets/bloom-glass/${name}.webp" alt="" width="1916" height="821" loading="eager" decoding="async" fetchpriority="low" draggable="false">`).join('')}</div><div class="wb-glass-card"><div class="wb-glass-surface" aria-hidden="true"></div><div class="wb-glass-content"><p class="wb-glass-eyebrow">${glassBloomContent.eyebrow}</p><h2 id="gentle-bloom-title">${glassBloomContent.heading}</h2><p class="wb-glass-description">${glassBloomContent.description}</p><ul class="wb-glass-points">${glassBloomContent.points.map(point=>`<li><div><strong>${point.title}</strong><p>${point.text}</p></div></li>`).join('')}</ul><a class="wb-glass-cta" href="${glassBloomContent.href}"><span>${glassBloomContent.cta}</span><span class="wb-glass-arrow" aria-hidden="true">↗</span></a></div></div></div></section>`;
+ // Supplied full-scene artwork: keep the existing card and entrance above it.
+ return `<section class="wb-glass-scene" id="gentle-bloom" aria-labelledby="gentle-bloom-title" data-glass-scene><div class="wb-glass-stage"><div class="wb-glass-artboard" aria-hidden="true"><img class="wb-glass-layer wb-glass-layer-0" src="assets/bloom-glass/cherry-blossom-background.png" alt="" width="1672" height="941" loading="eager" decoding="async" fetchpriority="low" draggable="false"></div><div class="wb-glass-card"><div class="wb-glass-surface" aria-hidden="true"></div><div class="wb-glass-content"><p class="wb-glass-eyebrow">${glassBloomContent.eyebrow}</p><h2 id="gentle-bloom-title">${glassBloomContent.heading}</h2><p class="wb-glass-description">${glassBloomContent.description}</p><ul class="wb-glass-points">${glassBloomContent.points.map(point=>`<li><div><strong>${point.title}</strong><p>${point.text}</p></div></li>`).join('')}</ul><a class="wb-glass-cta" href="${glassBloomContent.href}"><span>${glassBloomContent.cta}</span><span class="wb-glass-arrow" aria-hidden="true">↗</span></a></div></div></div></section>`;
 };
 const priceData = [
  [
@@ -931,7 +931,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
   entered=true;
   scene.dataset.glassEntrance=immediate||reduced.matches?'revealed':'entering';
  }
- // The scene opens first. Its completion releases the card and the flower video.
+ // The scene opens first; its completion releases the glass card.
  function completeScene(immediate=false){
   clearTimeout(sceneTimer);sceneTimer=0;
   if(scene.dataset.sceneEntrance==='revealed'){if(immediate)reveal(true);return;}
@@ -953,7 +953,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
   if(event.target===surface&&event.animationName==='wb-glass-grow')scene.dataset.glassEntrance='revealed';
  }
  function configure(){
-  enabled=fine.matches&&!reduced.matches;
+  enabled=layers.length>1&&fine.matches&&!reduced.matches;
   stop();
   if(!enabled){current={x:0,y:0};target={...current};layers.forEach(layer=>layer.style.removeProperty('transform'));}
   if(reduced.matches){completeScene(true);reveal(true);}
@@ -995,7 +995,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
  document.addEventListener('visibilitychange',onVisibility);
  window.addEventListener('pagehide',teardown);
  configure();
- // The existing startup gate decodes all six layers before this observer can reveal the card.
+ // The existing startup gate decodes the scene artwork before revealing the card.
  if(document.documentElement.classList.contains('page-loading'))window.addEventListener('bloom:page-ready',observe,{once:true});
  else observe();
 })();
@@ -1153,7 +1153,7 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)hoverServic
   const cardRect=card.getBoundingClientRect();
   const scale=stage.getBoundingClientRect().width/stage.offsetWidth||1;
   ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
-  ctx.globalAlpha=1;ctx.fillStyle='#e1d9f3';ctx.fillRect(0,0,w+pad*2,h+pad*2);
+  ctx.globalAlpha=1;ctx.fillStyle=getComputedStyle(stage).backgroundColor;ctx.fillRect(0,0,w+pad*2,h+pad*2);
   media.forEach(item=>{
    const isVideo=item.tagName==='VIDEO';
    const nw=isVideo?item.videoWidth:item.naturalWidth,nh=isVideo?item.videoHeight:item.naturalHeight;

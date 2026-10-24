@@ -506,7 +506,7 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
 /* Full-screen composition: preserve each asset's aspect ratio and anchor its artwork to the reference corner. */
 .wb-glass-scene{position:relative;isolation:isolate;overflow:hidden;width:100%;max-width:none;height:100svh;margin:0;border:0;border-radius:0;background:transparent;box-shadow:none;scroll-margin-top:0;--wb-entry-radius:72px;--wb-entry-lift:56px}
 /* One visibility-triggered entrance; the stationary outer section preserves page geometry. */
-.wb-glass-stage{position:absolute;inset:0;overflow:hidden;isolation:isolate;background:#e1d9f3;transform-origin:50% 55%;border-radius:0}
+.wb-glass-stage{position:absolute;inset:0;overflow:hidden;isolation:isolate;background:#fff8fb;transform-origin:50% 55%;border-radius:0}
 .wb-glass-scene[data-scene-entrance="pending"] .wb-glass-stage{opacity:.15;transform:translate3d(0,var(--wb-entry-lift),0) scale(.91);border-radius:var(--wb-entry-radius)}
 .wb-glass-scene[data-scene-entrance="entering"] .wb-glass-stage{animation:wb-glass-scene-in 950ms cubic-bezier(.2,.75,.25,1) both;will-change:transform,opacity,border-radius}
 @keyframes wb-glass-scene-in{

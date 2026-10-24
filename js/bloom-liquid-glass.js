@@ -48,7 +48,7 @@
   const cardRect=card.getBoundingClientRect();
   const scale=stage.getBoundingClientRect().width/stage.offsetWidth||1;
   ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
-  ctx.globalAlpha=1;ctx.fillStyle='#e1d9f3';ctx.fillRect(0,0,w+pad*2,h+pad*2);
+  ctx.globalAlpha=1;ctx.fillStyle=getComputedStyle(stage).backgroundColor;ctx.fillRect(0,0,w+pad*2,h+pad*2);
   media.forEach(item=>{
    const isVideo=item.tagName==='VIDEO';
    const nw=isVideo?item.videoWidth:item.naturalWidth,nh=isVideo?item.videoHeight:item.naturalHeight;

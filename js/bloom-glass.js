@@ -57,7 +57,7 @@
   entered=true;
   scene.dataset.glassEntrance=immediate||reduced.matches?'revealed':'entering';
  }
- // The scene opens first. Its completion releases the card and the flower video.
+ // The scene opens first; its completion releases the glass card.
  function completeScene(immediate=false){
   clearTimeout(sceneTimer);sceneTimer=0;
   if(scene.dataset.sceneEntrance==='revealed'){if(immediate)reveal(true);return;}
@@ -79,7 +79,7 @@
   if(event.target===surface&&event.animationName==='wb-glass-grow')scene.dataset.glassEntrance='revealed';
  }
  function configure(){
-  enabled=fine.matches&&!reduced.matches;
+  enabled=layers.length>1&&fine.matches&&!reduced.matches;
   stop();
   if(!enabled){current={x:0,y:0};target={...current};layers.forEach(layer=>layer.style.removeProperty('transform'));}
   if(reduced.matches){completeScene(true);reveal(true);}
@@ -121,7 +121,7 @@
  document.addEventListener('visibilitychange',onVisibility);
  window.addEventListener('pagehide',teardown);
  configure();
- // The existing startup gate decodes all six layers before this observer can reveal the card.
+ // The existing startup gate decodes the scene artwork before revealing the card.
  if(document.documentElement.classList.contains('page-loading'))window.addEventListener('bloom:page-ready',observe,{once:true});
  else observe();
 })();
