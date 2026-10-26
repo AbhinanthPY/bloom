@@ -173,3 +173,8 @@
  .enquiry-review-list>div{grid-template-columns:1fr;gap:4px}
 }
 @media(prefers-reduced-motion:reduce){.enquiry-submit,.enquiry-field input,.enquiry-field select,.enquiry-field textarea{transition:none}.enquiry-submit:hover{transform:none}}
+
+/* Keep the existing sound toggle clear of the form and photo captions. */
+body:has(.enquiry-page) .sound-control{left:12px;bottom:12px;gap:0}
+body:has(.enquiry-page) .sound-control .sound-icon{width:36px;height:36px}
+body:has(.enquiry-page) .sound-control .sound-label{display:none}
