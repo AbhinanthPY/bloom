@@ -2,6 +2,9 @@
 'use strict';
 const ASSET = 'assets/';
 const CONTACT_EMAIL = 'wellcarephysiotherapy.in@gmail.com';
+// Official WhatsApp number in international format, shared by both entry points.
+const WHATSAPP_URL = 'https://wa.me/917510103160';
+const whatsappIcon = '<svg viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M27 15.5a11 11 0 0 1-16.3 9.65L5 27l1.85-5.7A11 11 0 1 1 27 15.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m11.2 9.8 2 3.3-1.3 1.55c1.1 2.15 2.55 3.6 4.7 4.7l1.55-1.3 3.3 2c-.25 1.65-1.35 2.4-2.75 2.15-5.25-.95-9.7-5.4-10.65-10.65-.25-1.4.5-2.5 2.15-2.75l1 1Z" fill="currentColor"/></svg>';
 // Recipient confirmed by the owner. FormSubmit requires one-time mailbox activation before delivery.
 const ENQUIRY_EMAIL_ENABLED = true;
 const images = {
@@ -244,6 +247,7 @@ function enquiryClinic(){
  return `<aside class="enquiry-clinic enquiry-glass" aria-labelledby="enquiry-clinic-title"><span class="enquiry-kicker">A real conversation</span><h2 id="enquiry-clinic-title">Here for you,<br>at your pace.</h2><p>Reach the team directly, or leave a little about what you’re looking for in the form.</p><div class="enquiry-clinic-links">
   <a href="tel:+919207798777"><span class="enquiry-contact-icon">${enquirySymbol('phone')}</span><span><small>Speak with the team</small><strong>+91 92077 98777</strong></span><span aria-hidden="true">↗</span></a>
   <a href="tel:+914712551825"><span class="enquiry-contact-icon">${enquirySymbol('phone')}</span><span><small>Call the clinic</small><strong>+91 471 2551825</strong></span><span aria-hidden="true">↗</span></a>
+  <a href="${WHATSAPP_URL}" target="_blank" rel="noopener noreferrer" aria-label="Chat with Wellcare Bloom on WhatsApp at +91 75101 03160"><span class="enquiry-contact-icon enquiry-whatsapp-icon">${whatsappIcon}</span><span><small>Official WhatsApp</small><strong>+91 75101 03160</strong></span><span aria-hidden="true">↗</span></a>
   <a href="mailto:${CONTACT_EMAIL}"><span class="enquiry-contact-icon">${enquirySymbol('mail')}</span><span><small>Write to us</small><strong class="enquiry-email">${CONTACT_EMAIL}</strong></span><span aria-hidden="true">↗</span></a>
  </div><div class="enquiry-address"><span class="enquiry-contact-icon">${enquirySymbol('pin')}</span><div><h3>Visit the clinic</h3><strong>Wellcare Physiotherapy &amp;<br>Sports Rehabilitation</strong><address>Medical College Murinjapalam Road, Murinjapalam<br>Thiruvananthapuram, Kerala 695011</address><a href="https://www.google.com/maps?cid=2350634483304533301" target="_blank" rel="noopener noreferrer">Find us on Google Maps <span aria-hidden="true">↗</span></a></div></div><p class="enquiry-clinic-footnote">Ask for Wellcare Bloom women’s health physiotherapy.</p></aside>`;
 }
@@ -268,6 +272,18 @@ const page=currentFile.replace(/\.html$/,'');
 const routes={index:home,about,services:servicePage,journal,contact:()=>consultation(true),'book-a-consultation':()=>consultation(false),'article-guidance':()=>articlePage(0),'article-hydration':()=>articlePage(1),'privacy-policy':()=>legalPage('privacy-policy'),'terms-of-use':()=>legalPage('terms-of-use'),'cookie-policy':()=>legalPage('cookie-policy'),'404':()=>`${intro('A little off the path.','The page you’re looking for could not be found. Let’s take you somewhere familiar.')}<div style="text-align:center;padding-bottom:100px">${button('Back to home','index.html')}</div>`};
 document.querySelector('#main').innerHTML=(routes[page]||routes['404'])();
 document.querySelector('#footer').innerHTML=footer();
+// A normal click-to-chat link opens WhatsApp; no SDK, tracking widget or automatic messages.
+if(page==='index'){
+ const whatsapp=document.createElement('a');
+ whatsapp.className='whatsapp-float';
+ whatsapp.href=WHATSAPP_URL;
+ whatsapp.target='_blank';
+ whatsapp.rel='noopener noreferrer';
+ whatsapp.setAttribute('aria-label','Chat with Wellcare Bloom on WhatsApp');
+ whatsapp.innerHTML=`${whatsappIcon}<span class="whatsapp-float-label">Chat on WhatsApp</span>`;
+ document.body.append(whatsapp);
+}
+
 document.title=page==='index'?'Wellcare Bloom — Women’s Health Physiotherapy':page==='article-guidance'?`${articles[0].title} — Wellcare Bloom`:page==='article-hydration'?`${articles[1].title} — Wellcare Bloom`:`${page.split('-').map(s=>s[0]?.toUpperCase()+s.slice(1)).join(' ')} — Wellcare Bloom`;
 document.querySelectorAll(`.desktop-nav a[href="${currentFile}"]`).forEach(a=>a.setAttribute('aria-current','page'));
 

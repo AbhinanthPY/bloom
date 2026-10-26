@@ -113,3 +113,16 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
 
 /* The official email address must remain readable on narrow screens. */
 a[href^="mailto:"]{overflow-wrap:anywhere}
+
+/* Home-only WhatsApp glass control mirrors the sound control on the opposite side. */
+.whatsapp-float{position:fixed;right:max(40px,env(safe-area-inset-right));bottom:calc(40px + env(safe-area-inset-bottom));z-index:110;display:grid;place-items:center;width:56px;height:56px;border:1px solid #ffffffe6;border-radius:50%;color:#087b53;background:radial-gradient(ellipse at 28% 15%,#ffffffed,transparent 62%),linear-gradient(145deg,#ffffff8f,#e4f9ee40 52%,#ffffff96);-webkit-backdrop-filter:blur(18px) saturate(155%);backdrop-filter:blur(18px) saturate(155%);box-shadow:inset 0 1px 2px #fff,inset 0 -2px 5px #d3efe499,0 7px 24px #234d4433,0 0 18px #ffffff70;transition:transform .25s ease,box-shadow .25s ease}
+.whatsapp-float::after{content:'';position:absolute;inset:3px;border:1px solid #ffffff91;border-radius:inherit;pointer-events:none}
+.whatsapp-float>svg{width:31px;height:31px;filter:drop-shadow(0 1px 0 #ffffffb3)}
+.whatsapp-float-label{position:absolute;right:calc(100% + 12px);padding:8px 12px;border:1px solid #ffffffbf;border-radius:99px;background:#f6fcf6ed;color:#245846;font:500 12px/1.4 var(--sans);white-space:nowrap;opacity:0;visibility:hidden;transform:translateX(4px);transition:opacity .2s ease,transform .2s ease,visibility .2s}
+.whatsapp-float:focus-visible{outline:3px solid #087b53;outline-offset:5px}
+.whatsapp-float:focus-visible .whatsapp-float-label{opacity:1;visibility:visible;transform:none}
+@media(hover:hover){.whatsapp-float:hover{transform:translateY(-3px);box-shadow:inset 0 1px 2px #fff,inset 0 -2px 5px #d3efe499,0 10px 30px #234d4440,0 0 20px #ffffff80}.whatsapp-float:hover .whatsapp-float-label{opacity:1;visibility:visible;transform:none}}
+html.page-loading .whatsapp-float,body.menu-open .whatsapp-float{visibility:hidden;opacity:0;pointer-events:none}
+@media(max-width:809px){.whatsapp-float{right:max(20px,env(safe-area-inset-right));bottom:calc(22px + env(safe-area-inset-bottom));width:52px;height:52px}.whatsapp-float>svg{width:29px;height:29px}}
+@media(prefers-reduced-motion:reduce){.whatsapp-float,.whatsapp-float-label{transition:none}}
+@media print{.whatsapp-float{display:none}}

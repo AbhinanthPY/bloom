@@ -192,3 +192,5 @@ body:has(.enquiry-page) .sound-control .sound-label{display:none}
 .enquiry-submit[aria-busy="true"]::before{content:'';width:14px;height:14px;border:2px solid #ffffff66;border-top-color:white;border-radius:50%;animation:enquiry-send-spin .8s linear infinite}
 @keyframes enquiry-send-spin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.enquiry-submit[aria-busy="true"]::before{animation:none}}
+
+.enquiry-whatsapp-icon{color:#087b53;background:linear-gradient(145deg,#fff9,#daf2e780);border-color:#fff}
