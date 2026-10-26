@@ -205,8 +205,10 @@ const articles = [
   "title": "5 Postpartum Problems Mothers Often Ignore",
   "description": "Leaking, pelvic discomfort, core changes and other symptoms deserve a conversation. You do not have to wait until they disrupt daily life to ask for support.",
   "category": "Postpartum Care",
-  "image": "journal-postpartum-cover-1086.webp",
-  "imageStem": "journal-postpartum-cover",
+  "image": "journal-postpartum-cover-20261026-960.webp",
+  "imageStem": "journal-postpartum-cover-20261026",
+  "imageWidth": 960,
+  "imageHeight": 1280,
   "url": "article-hydration.html",
   "sources": [{"label":"RCOG: Recovery after a perineal tear","url":"https://www.rcog.org.uk/for-the-public/perineal-tears-and-episiotomies-in-childbirth/third-and-fourth-degree-tears-oasi/"},{"label":"NHS: Your post-pregnancy body","url":"https://www.nhs.uk/baby/support-and-services/your-post-pregnancy-body/"},{"label":"RCOG: Pelvic floor health","url":"https://www.rcog.org.uk/about-us/campaigning-and-opinions/position-statements/pelvic-floor-health-position-statement/"},{"label":"NICE: Pelvic floor dysfunction recommendations","url":"https://www.nice.org.uk/guidance/ng210/chapter/Recommendations"}],
   "body": [
@@ -229,10 +231,13 @@ const articles = [
 ];
 const journalPoster = (a,lazy=true) => {
  const stem=a.imageStem||a.image.replace(/\.webp$/,'');
- const widths=a.imageWidth>1086?[648,1086,a.imageWidth]:[648,1086];
+ // Use the supplied poster at its native size; never upscale the source.
+ const fullWidth=a.imageWidth||1086;
+ const widths=[648,1086,fullWidth].filter((width,index,list)=>width<=fullWidth&&list.indexOf(width)===index);
+ const fallbackWidth=lazy?widths[0]:Math.min(1086,fullWidth);
  const sources=type=>widths.map(width=>`${ASSET}${stem}-${width}.${type} ${width}w`).join(', ');
  const sizes=lazy?'(max-width:520px) calc(100vw - 56px), (max-width:809px) 320px, 500px':'(max-width:1120px) calc(100vw - 48px), 1072px';
- return `<picture class="journal-poster"><source type="image/avif" srcset="${sources('avif')}" sizes="${sizes}"><img src="${ASSET}${stem}-${lazy?'648':'1086'}.webp" srcset="${sources('webp')}" sizes="${sizes}" alt="${escapeHtml(a.title)}" width="${a.imageWidth||1086}" height="${a.imageHeight||1448}" loading="eager" decoding="async" fetchpriority="${lazy?'low':'high'}"></picture>`;
+ return `<picture class="journal-poster"><source type="image/avif" srcset="${sources('avif')}" sizes="${sizes}"><img src="${ASSET}${stem}-${fallbackWidth}.webp" srcset="${sources('webp')}" sizes="${sizes}" alt="${escapeHtml(a.title)}" width="${a.imageWidth||1086}" height="${a.imageHeight||1448}" loading="eager" decoding="async" fetchpriority="${lazy?'low':'high'}"></picture>`;
 };
 const articleCard = a => `<a class="article-card reveal${a.imageWidth>a.imageHeight?' article-card-landscape':''}" href="${a.url}" data-category="${a.category}"><div class="article-copy"><h3>${a.title}</h3><p>${a.description}</p></div><div class="article-image">${journalPoster(a)}</div></a>`;
 const journalSection = () => `<section class="section container journal-feature" id="home-journal">${heading('Our Journal','Notes for your next chapter.','Thoughtful reading on pelvic health, postpartum recovery and finding your way back to everyday life.')}<div class="journal-grid">${articles.map(articleCard).join('')}</div><div class="section-end reveal"><p>Explore our Journal for thoughtful insights on women’s health, recovery and everyday confidence.</p>${button('Browse insights','journal.html')}</div></section>`;
