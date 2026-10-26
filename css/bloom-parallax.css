@@ -1,7 +1,4 @@
 /* Scroll-scrubbed flower film with editable editorial lettering inspired by the supplied reference. */
-@font-face{font-family:BloomDisplay;src:url('../assets/bloom-editorial-regular.ttf') format('truetype');font-style:normal;font-weight:400;font-display:block}
-@font-face{font-family:BloomDisplay;src:url('../assets/bloom-editorial-italic.ttf') format('truetype');font-style:italic;font-weight:400;font-display:block}
-@font-face{font-family:BloomFlourish;src:url('../assets/bloom-editorial-flourish.ttf') format('truetype');font-style:normal;font-weight:400;font-display:block}
 .bloom-experience{position:relative;height:100svh;min-height:620px;margin:40px 0 120px;background:transparent}
 .bloom-stage{position:relative;height:100%;width:100%;overflow:hidden;isolation:isolate;background:#d6b5b5}
 .bloom-scroll-active{height:350svh;min-height:0}
@@ -15,16 +12,16 @@
 .bloom-final-frame{opacity:var(--bloom-final-opacity,0);transform:translate3d(var(--bloom-final-x,0px),var(--bloom-final-y,0px),0) scale(var(--bloom-final-scale,1));will-change:transform}
 .bloom-atmosphere{z-index:3;background:linear-gradient(180deg,#21182738,#21182748 65%,#21182720)}
 /* A single responsive composition: small introduction, rose headline, italic closing.
-   The oversized f is a real glyph, so all lettering stays editable and sharp. */
-.bloom-message{position:absolute;left:50%;top:51%;width:92%;max-width:1440px;transform:translate(-50%,-50%);z-index:4;text-align:center;font-family:BloomDisplay,Didot,'Times New Roman',serif;container-type:inline-size}
-.bloom-kicker{display:block;margin:0 0 1.4cqw;padding-left:5%;text-align:left;color:#50382c;text-shadow:0 1px 2px #ffffffe0,0 0 14px #ffffffb3;font:400 6.8cqw/1.1 BloomDisplay,Didot,'Times New Roman',serif;letter-spacing:-.065em;text-transform:none}
+   The oversized italic f uses the shared heading font and is a real glyph, so all lettering stays editable and sharp. */
+.bloom-message{position:absolute;left:50%;top:51%;width:92%;max-width:1440px;transform:translate(-50%,-50%);z-index:4;text-align:center;font-family:var(--serif);container-type:inline-size}
+.bloom-kicker{display:block;margin:0 0 1.4cqw;padding-left:5%;text-align:left;color:#50382c;text-shadow:0 1px 2px #ffffffe0,0 0 14px #ffffffb3;font:400 6.8cqw/1.1 var(--serif);letter-spacing:-.065em;text-transform:none}
 .bloom-kicker span{white-space:nowrap}
 #bloom-title{display:block;margin:0;font-weight:400}
-.bloom-title-line{display:block;position:relative;white-space:nowrap;font-family:BloomDisplay,Didot,'Times New Roman',serif;font-weight:400;font-style:normal;text-transform:none;letter-spacing:-.055em;color:#bc254d;text-shadow:none;will-change:transform}
+.bloom-title-line{display:block;position:relative;white-space:nowrap;font-family:var(--serif);font-weight:400;font-style:normal;text-transform:none;letter-spacing:-.055em;color:#bc254d;text-shadow:none;will-change:transform}
 .bloom-title-care{font-size:14.6cqw;line-height:1.08}
 .bloom-priority-word{white-space:nowrap}
 .bloom-flourish-letter{display:inline-block;position:relative;width:.34em}
-.bloom-flourish-letter i{position:absolute;left:0;bottom:-.18em;font:400 1.3em/.9 BloomFlourish,BloomDisplay,serif;line-height:.9;letter-spacing:0;color:#df3d61;font-feature-settings:'swsh' 1;pointer-events:none}
+.bloom-flourish-letter i{position:absolute;left:-.1em;bottom:-.13em;font:italic 400 1.65em/.9 var(--serif);line-height:.9;letter-spacing:0;color:#df3d61;font-feature-settings:'swsh' 1;pointer-events:none}
 .bloom-title-blooms{margin-top:1.5cqw;padding-right:5%;text-align:right;font-size:7.1cqw;line-height:1.2;font-style:italic;letter-spacing:-.045em;color:#50382c;text-shadow:0 1px 2px #ffffffe0,0 0 14px #ffffffb3}
 @supports ((background-clip:text) or (-webkit-background-clip:text)){
  .bloom-title-care{background:linear-gradient(115deg,#a3103c 4%,#c32c52 55%,#ea4c6a 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}

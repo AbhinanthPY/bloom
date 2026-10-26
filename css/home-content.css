@@ -72,3 +72,14 @@
  .service-slot{width:100%}
  .service-track .service-card{min-height:540px;height:auto}
 }
+
+/* DM Serif Display is wider than the original condensed face. Reserve enough
+   reading space for the quote and keep the longest card title inside small phones. */
+.manifesto-inner{padding:clamp(80px,12svh,120px) 0 64px}
+.manifesto blockquote{font-size:clamp(30px,4.65vw,46px)}
+@media(max-width:809px){.manifesto blockquote{font-size:36px}}
+@media(max-width:520px){
+ .manifesto blockquote{font-size:28px}
+ .service-track .service-card h3{font-size:clamp(32px,10.8vw,42px)}
+}
+@media(max-width:360px){.manifesto blockquote{font-size:26px}}
