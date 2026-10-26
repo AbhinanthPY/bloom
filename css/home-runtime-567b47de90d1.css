@@ -114,6 +114,9 @@ html.page-loading #hero,html.page-loading #hero *,html.page-loading #hero::befor
 @keyframes page-loader-spin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.page-loader-flower{animation:none}}
 
+/* The official email address must remain readable on narrow screens. */
+a[href^="mailto:"]{overflow-wrap:anywhere}
+
 
 /* Source: css/bloom-parallax.css */
 /* Scroll-scrubbed flower film with editable editorial lettering inspired by the supplied reference. */

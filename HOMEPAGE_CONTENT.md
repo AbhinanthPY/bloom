@@ -136,7 +136,7 @@ Yes. Wellcare Bloom provides a private, respectful space to discuss bladder leak
 
 ### How can I book a consultation?
 
-You can <a href="book-a-consultation.html">request a consultation</a> or email <a href="mailto:info@wellcarebloom.in">info@wellcarebloom.in</a>. Our team can help you decide where to begin.
+You can <a href="book-a-consultation.html">request a consultation</a> or email <a href="mailto:wellcarephysiotherapy.in@gmail.com">wellcarephysiotherapy.in@gmail.com</a>. Our team can help you decide where to begin.
 
 ### Will my consultation be private?
 
@@ -160,6 +160,6 @@ We review how you are feeling and functioning, discuss your goals and adjust you
 
 Thoughtful updates on pelvic health, postpartum recovery and finding confidence in everyday life.
 
-Email: info@wellcarebloom.in
+Email: wellcarephysiotherapy.in@gmail.com
 
 The service detail copy, consultation interests, Journal article copy and email links have also been aligned with the homepage content. Existing imagery, section layouts, backgrounds and scroll effects are retained.

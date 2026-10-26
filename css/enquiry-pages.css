@@ -1,4 +1,4 @@
-/* Consultation and Contact: shared Bloom glass surfaces, with no delivery integration. */
+/* Consultation and Contact: shared Bloom glass surfaces, with a review-before-send email flow. */
 .enquiry-page{--enquiry-ink:#183e55;--enquiry-muted:#617586;--enquiry-rose:#a65475;position:relative;isolation:isolate;padding:176px 0 64px;color:var(--enquiry-ink);background:linear-gradient(150deg,#eef5fa70,#fbecf180 50%,#eeeafa70)}
 .enquiry-page::before{content:'';position:absolute;z-index:-2;inset:0 0 auto;height:1240px;pointer-events:none;background:url('../assets/bloom-glass/04-glass-waves.webp') 60% 230px / 1550px auto no-repeat,radial-gradient(ellipse at 94% 25%,#e3d5efb3,transparent 48%),radial-gradient(ellipse at 2% 43%,#f6d4e29c,transparent 53%)}
 .enquiry-page::after{content:'';position:absolute;z-index:-1;top:110px;right:-110px;width:480px;height:480px;border:1px solid #ffffffb8;border-radius:50%;box-shadow:0 0 0 45px #ffffff1f,0 0 0 90px #ffffff12;pointer-events:none}
@@ -29,7 +29,7 @@
 .enquiry-glass::after{content:'';position:absolute;z-index:2;inset:3px;border:1px solid #ffffff75;border-radius:30px;mask-image:linear-gradient(135deg,#000,transparent 38%,transparent 65%,#000);-webkit-mask-image:linear-gradient(135deg,#000,transparent 38%,transparent 65%,#000);pointer-events:none}
 .enquiry-form-panel{display:flex;flex-direction:column;min-width:0;padding:30px 32px 26px}
 .enquiry-form-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px;color:#73828e;font-size:9px;letter-spacing:.14em;text-transform:uppercase}
-.enquiry-preview-badge{padding:6px 9px;border:1px solid #ffffffc9;border-radius:99px;background:#f5e6ed70;color:#967183;font-size:8px;letter-spacing:.1em;white-space:nowrap}
+.enquiry-route-badge{padding:6px 9px;border:1px solid #ffffffc9;border-radius:99px;background:#f5e6ed70;color:#967183;font-size:8px;letter-spacing:.1em;white-space:nowrap}
 .enquiry-form-panel>h2{font:400 34px/1.12 var(--serif);letter-spacing:-.03em;color:var(--enquiry-ink)}
 .enquiry-form-intro{margin:9px 0 23px;color:var(--enquiry-muted);font-size:12px;line-height:1.6}
 .enquiry-form-panel form{display:flex;flex-direction:column;flex:1}
@@ -152,7 +152,7 @@
  .enquiry-glass::after{border-radius:24px}
  .enquiry-form-panel>h2{font-size:30px}
  .enquiry-form-top{font-size:8px;letter-spacing:.11em}
- .enquiry-preview-badge{font-size:7px;padding:5px 7px}
+ .enquiry-route-badge{font-size:7px;padding:5px 7px}
  .enquiry-form-intro{font-size:11px;max-width:260px}
  .enquiry-fields{grid-template-columns:minmax(0,1fr);gap:16px}
  .enquiry-field{font-size:12px}
@@ -178,3 +178,17 @@
 body:has(.enquiry-page) .sound-control{left:12px;bottom:12px;gap:0}
 body:has(.enquiry-page) .sound-control .sound-icon{width:36px;height:36px}
 body:has(.enquiry-page) .sound-control .sound-label{display:none}
+
+/* Email delivery states retain the glass form and keep errors beside the review. */
+.enquiry-honeypot{display:none!important}
+.enquiry-form-footer a{color:#725674;text-decoration:underline;text-underline-offset:3px}
+.enquiry-delivery-status:empty{display:none}
+.enquiry-delivery-status{padding:13px 15px;margin:18px 0;border:1px solid #cbdbe5;border-radius:14px;background:#edf4f9;font-size:13px;line-height:1.7;color:#416174}
+.enquiry-delivery-status[data-state="error"]{color:#84405e;background:#fbecf1;border-color:#ebc8d8}
+.enquiry-delivery-status[data-state="success"]{color:#356557;background:#eaf5ef;border-color:#c8e2d3}
+.enquiry-review-edit{display:block;width:100%;padding:13px 10px;margin-top:10px;background:transparent;color:#6c7d8c;font:400 13px/1.4 var(--sans);border-radius:12px}
+.enquiry-submit[hidden]{display:none}
+.enquiry-review button:disabled{opacity:.6;cursor:wait;transform:none}
+.enquiry-submit[aria-busy="true"]::before{content:'';width:14px;height:14px;border:2px solid #ffffff66;border-top-color:white;border-radius:50%;animation:enquiry-send-spin .8s linear infinite}
+@keyframes enquiry-send-spin{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.enquiry-submit[aria-busy="true"]::before{animation:none}}
